@@ -1,1 +1,20 @@
-placeholder and some testing
+SEARCH(1)
+
+NAME
+	search - list matching results in file
+
+SYNOPSIS
+	search <string>... <file> <option>
+
+DESCRIPTION
+	lists all results from <file> matching <string> according to <option>
+
+	-t, --title[=SORT]
+		search for <string> in titles within <file> and list in alphabetical order by title; SORT can 
+		be 'title' or 'year'
+	
+	-a, --author
+		search for <string> in author names within <file> and list in alphabetical order by surname
+
+	-y, --year
+		search for years within <file> in the range <string> to <string> and list in order by year
