@@ -4,7 +4,7 @@ NAME
 	search - list matching results in file
 
 SYNOPSIS
-	search <string>... <file> <option>
+	search [--help] <string>... <file> <option>
 
 DESCRIPTION
 	lists all results from <file> matching <string> according to <option>
@@ -16,5 +16,8 @@ DESCRIPTION
 	-a, --author
 		search for <string> in author names within <file> and list in alphabetical order by surname
 
+	--help
+		prints usage statement
+	
 	-y, --year
 		search for years within <file> in the range <string> to <string> and list in order by year
