@@ -18,6 +18,22 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(len(authors) == 1)
         self.assertTrue(authors[0] == Author('Pratchett', 'Terry'))
 
+    def test_multiple_author(self):
+        authors = self.data_source.authors('Brontë')
+        self.assertTrue(len(authors) == 3)
+        self.assertTrue(authors[0] == Author('Brontë', 'Ann') and authors[1] == Author('Brontë', 'Charlotte') and authors[2] == Author('Brontë', 'Emily'))
+
+    def test_no_author(self):
+        authors=self.data_source.authors('asdfkjl;')
+        self.assertTrue(len(authors) == 0)
+
+#figure out what to do in terms of testing for no string/print all authors
+#all case insensitive results show up
+#books testing: putting in gibberish for sortby still gives you default sorting/no type error
+#books testing: zero books, one book, two+ books, all books, check sorting (btwn 2/all)
+#booksbetween testing: if start year > end year, return nothing; zero, one, two, all, checking none for both start and
+#check that book results are returned in sorted order by pub year
+
 if __name__ == '__main__':
     unittest.main()
 
