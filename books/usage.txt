@@ -1,25 +1,26 @@
 Ariana Borlak, Sophia Wang
 
-SEARCH(1)
+BOOKS(1)
 
 NAME
-	search - list matching results in file
+	books - list matching results in file
 
 SYNOPSIS
-	search [--help] <string>... <file> <option>
+	books [-h | --help] [<option> <string>... <file>]
 
 DESCRIPTION
-	lists all results from <file> matching <string> according to <option>
+	Lists all results from a CSV <file> matching <string> according to <option>. Default lists all books.
 
 	-t, --title[=SORT]
-		search for <string> in titles within <file> and list in alphabetical order by title; SORT can 
+		Search for <string> in titles within <file> and list in alphabetical order by title; SORT can 
 		be 'title' or 'year'
 	
 	-a, --author
-		search for <string> in author names within <file> and list in alphabetical order by surname
+		Search for <string> in author names within <file> and list in alphabetical order by surname
 
-	--help
-		prints usage statement
+	-h, --help
+		Prints usage statement
 	
 	-y, --year
-		search for years within <file> in the range <string> to <string> and list in order by year
+		Search for years within <file> in the range from the first <string> to the second <string> and 
+		list in order by year
