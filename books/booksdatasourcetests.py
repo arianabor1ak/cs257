@@ -37,7 +37,7 @@ class BooksDataSourceTester(unittest.TestCase):
     def test_all_authors(self):
         tiny_data_source = BooksDataSource('tinybooks.csv')
         authors = tiny_data_source.authors()
-        self.assertTrue(len(books) == 3)
+        self.assertTrue(len(authors) == 3)
         self.assertTrue(authors[0].title == 'Austen', 'Jane')
         self.assertTrue(authors[1].title == 'Gaiman', 'Neil')
         self.assertTrue(authors[2].title == 'Melville', 'Herman')
