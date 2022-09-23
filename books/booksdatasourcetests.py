@@ -56,28 +56,30 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(len(authors) == 0)
 
     #test for year
+    #python3 books books_between_years string1 string 2
     def test_all_years(self):
         tiny_data_source = BooksDataSource('tinybooks.csv')
-        books = tiny_data_source.books()
+        books = tiny_data_source.publication_year()
         self.assertTrue(len(books) == 3)
         self.assertTrue(books[0].title == 'Emma')
         self.assertTrue(books[1].title == 'Omoo')
         self.assertTrue(books[2].title == 'Neverwhere')
 
     def test_unique_year(self):
-        books = self.data.source.books('1813', '1813')
+        books = self.data.source.publication_year('1813', '1813')
         self.assertTrue(len(books) == 1)
         self.assertTrue(books[0].title == 'Sense and Sensibility')
 
     def test_multiple_year(self):
-        books = self.data.source.books('2019', '2019')
+        books = self.data.source.publication_year('2016', '2019')
         self.assertTrue(len(books) == 2)
-        self.assertTrue(books[0].title == 'All Clear')
-        self.assertTrue(books[1].title == 'Fine, Thanks')
+        self.assertTrue(books[0].title == 'There, There')
+        self.assertTrue(books[1].title == 'All Clear')
+        self.assertTrue(books[2].title == 'Fine, Thanks')
 
     def test_no_year(self):
         #testing wrong order (greater first, lesser second) doesn't work because we want it to reorder it always
-        books = self.data.source.books('1814', '1814')
+        books = self.data.source.publication_year('1814', '1814')
         self.assertTrue(len(books) == 0)
 
 #figure out what to do in terms of testing for no string/print all authors
