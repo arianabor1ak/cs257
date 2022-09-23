@@ -36,7 +36,7 @@ class BooksDataSourceTester(unittest.TestCase):
     #tests for author
     def test_all_authors(self):
         tiny_data_source = BooksDataSource('tinybooks.csv')
-        books = tiny_data_source.books()
+        authors = tiny_data_source.authors()
         self.assertTrue(len(books) == 3)
         self.assertTrue(authors[0].title == 'Austen', 'Jane')
         self.assertTrue(authors[1].title == 'Gaiman', 'Neil')
@@ -61,19 +61,19 @@ class BooksDataSourceTester(unittest.TestCase):
     #tests for year
     def test_all_years(self):
         tiny_data_source = BooksDataSource('tinybooks.csv')
-        books = tiny_data_source.publication_year()
+        books = tiny_data_source.books_between_years()
         self.assertTrue(len(books) == 3)
         self.assertTrue(books[0].title == 'Emma')
         self.assertTrue(books[1].title == 'Omoo')
         self.assertTrue(books[2].title == 'Neverwhere')
 
     def test_unique_year(self):
-        books = self.data_source.publication_year('1813', '1813')
+        books = self.data_source.books_between_years('1813', '1813')
         self.assertTrue(len(books) == 1)
         self.assertTrue(books[0].title == 'Sense and Sensibility')
 
     def test_multiple_year(self):
-        books = self.data_source.publication_year('2019', '2019')
+        books = self.data_source.books_between_years('2019', '2019')
         self.assertTrue(len(books) == 3)
         self.assertTrue(books[0].title == 'There, There')
         self.assertTrue(books[1].title == 'All Clear')
@@ -81,25 +81,25 @@ class BooksDataSourceTester(unittest.TestCase):
 
     def test_no_year(self):
         #testing wrong order (greater first, lesser second) doesn't work because we want it to reorder it always
-        books = self.data_source.publication_year('1814', '1814')
+        books = self.data_source.books_between_years('1814', '1814')
         self.assertTrue(len(books) == 0)
     
     def test_first_none(self):
         tiny_data_source = BooksDataSource('tinybooks.csv')
-        books = tiny_data_source.publication_year('None','1850')
+        books = tiny_data_source.books_between_years('None','1850')
         self.assertTrue(len(books) == 2)
         self.assertTrue(books[0].title == 'Emma')
         self.assertTrue(books[1].title == 'Omoo')
 
     def test_second_none(self):
         tiny_data_source = BooksDataSource('tinybooks.csv')
-        books = tiny_data_source.publication_year('1900','None')
+        books = tiny_data_source.books_between_years('1900','None')
         self.assertTrue(len(books) == 1)
         self.assertTrue(books[0].title == 'Neverwhere')
 
     def test_both_none(self):
         tiny_data_source = BooksDataSource('tinybooks.csv')
-        books = tiny_data_source.publication_year('None', 'None')
+        books = tiny_data_source.books_between_years('None', 'None')
         self.assertTrue(len(books) == 3)
         self.assertTrue(books[0] == Book('Emma'))
         self.assertTrue(books[1] == Book('Omoo'))
