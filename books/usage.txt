@@ -6,21 +6,22 @@ NAME
 	books - list matching results in file
 
 SYNOPSIS
-	books [-h | --help] [<option> <string>... <file>]
+	books [-h | --help] [<option> [string]...]
 
 DESCRIPTION
-	Lists all results from a CSV <file> matching <string> according to <option>. Default lists all books.
+	Lists all results from a books CSV file matching a case-insensitive <string> according to <option>. Indicating no option 
+	returns all books.
 
 	-t, --title[=SORT]
-		Search for <string> in titles within <file> and list in alphabetical order by title; SORT can 
+		Search for <string> in titles within books file and list in alphabetical order by title; SORT can 
 		be 'title' or 'year'
 	
 	-a, --author
-		Search for <string> in author names within <file> and list in alphabetical order by surname
+		Search for <string> in author names within books file and list in alphabetical order by surname
 
 	-h, --help
 		Prints usage statement
 	
 	-y, --year
-		Search for years within <file> in the range from the first <string> to the second <string> and 
-		list in order by year
+		Search for years within books file in the range from the first <string> to the second <string> and 
+		list in order by year, inclusive.
