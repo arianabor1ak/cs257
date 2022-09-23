@@ -65,20 +65,33 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(books[2].title == 'Neverwhere')
 
     def test_unique_year(self):
-        books = self.data.source.books('1813', '1813')
+        books = self.data_source.books('1813', '1813')
         self.assertTrue(len(books) == 1)
         self.assertTrue(books[0].title == 'Sense and Sensibility')
 
     def test_multiple_year(self):
-        books = self.data.source.books('2019', '2019')
+        books = self.data_source.books('2019', '2019')
         self.assertTrue(len(books) == 2)
         self.assertTrue(books[0].title == 'All Clear')
         self.assertTrue(books[1].title == 'Fine, Thanks')
 
     def test_no_year(self):
         #testing wrong order (greater first, lesser second) doesn't work because we want it to reorder it always
-        books = self.data.source.books('1814', '1814')
+        books = self.data_source.books('1814', '1814')
         self.assertTrue(len(books) == 0)
+    
+    def test_first_none(self):
+        tiny_data_source = BooksDataSource('tinybooks.csv')
+        books = tiny_data_source.publication_year('None','1850')
+        self.assertTrue(len(books) == 2)
+        self.assertTrue(books[0].title == 'Emma')
+        self.assertTrue(books[1].title == 'Omoo')
+
+    def test_second_none(self):
+        tiny_data_source = BooksDataSource('tinybooks.csv')
+        books = tiny_data_source.publication_year('1900','None')
+        self.assertTrue(len(books) == 1)
+        self.assertTrue(books[0].title == 'Neverwhere')
 
 #figure out what to do in terms of testing for no string/print all authors
 #all case insensitive results show up, diacritics show up when you search without them
