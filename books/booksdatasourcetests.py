@@ -13,6 +13,7 @@ class BooksDataSourceTester(unittest.TestCase):
     def tearDown(self):
         pass
 
+    #tests for books
     def test_all_books(self):
         tiny_data_source = BooksDataSource('tinybooks.csv')
         books = tiny_data_source.books()
@@ -21,6 +22,11 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(books[1].title == 'Neverwhere')
         self.assertTrue(books[2].title == 'Omoo')
     
+    def test_unique_book(self):
+        books = self.data_source.books('1q84')
+        self.assertTrue(len(books) == 1)
+        self.assertTrue(books[0].title == '1Q84')
+        
     #tests for author
     def test_all_authors(self):
         tiny_data_source = BooksDataSource('tinybooks.csv')
@@ -34,7 +40,6 @@ class BooksDataSourceTester(unittest.TestCase):
         authors = self.data_source.authors('Pratchett')
         self.assertTrue(len(authors) == 1)
         self.assertTrue(authors[0] == Author('Pratchett', 'Terry'))
-
     def test_multiple_author(self):
         authors = self.data_source.authors('Brontë')
         self.assertTrue(len(authors) == 3)
@@ -45,7 +50,7 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(len(authors) == 0)
 
 #figure out what to do in terms of testing for no string/print all authors
-#all case insensitive results show up
+#all case insensitive results show up, diacritics show up when you search without them
 #books testing: putting in gibberish for sortby still gives you default sorting/no type error
 #books testing: zero books, one book, two+ books, all books, check sorting (btwn 2/all)
 #booksbetween testing: if start year > end year, return nothing; zero, one, two, all, checking none for both start and
