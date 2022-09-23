@@ -46,17 +46,19 @@ class BooksDataSourceTester(unittest.TestCase):
         authors = self.data_source.authors('Pratchett')
         self.assertTrue(len(authors) == 1)
         self.assertTrue(authors[0] == Author('Pratchett', 'Terry'))
+    
     def test_multiple_author(self):
         authors = self.data_source.authors('Brontë')
         self.assertTrue(len(authors) == 3)
-        self.assertTrue(authors[0] == Author('Brontë', 'Ann') and authors[1] == Author('Brontë', 'Charlotte') and authors[2] == Author('Brontë', 'Emily'))
+        self.assertTrue(authors[0] == Author('Brontë', 'Ann'))
+        self.assertTrue(authors[1] == Author('Brontë', 'Charlotte'))
+        self.assertTrue(authors[2] == Author('Brontë', 'Emily'))
 
     def test_no_author(self):
         authors=self.data_source.authors('asdfkjl;')
         self.assertTrue(len(authors) == 0)
 
-    #test for year
-    #python3 books books_between_years string1 string 2
+    #tests for year
     def test_all_years(self):
         tiny_data_source = BooksDataSource('tinybooks.csv')
         books = tiny_data_source.publication_year()
@@ -95,12 +97,21 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(len(books) == 1)
         self.assertTrue(books[0].title == 'Neverwhere')
 
+    def test_both_none(self):
+        tiny_data_source = BooksDataSource('tinybooks.csv')
+        books = tiny_data_source.publication_year('None', 'None')
+        self.assertTrue(len(books) == 3)
+        self.assertTrue(books[0] == Book('Emma'))
+        self.assertTrue(books[1] == Book('Omoo'))
+        self.assertTrue(books[2] == Book('Neverwhere'))
+
 #figure out what to do in terms of testing for no string/print all authors
 #all case insensitive results show up, diacritics show up when you search without them
 #books testing: putting in gibberish for sortby still gives you default sorting/no type error
 #books testing: zero books, one book, two+ books, all books, check sorting (btwn 2/all)
 #booksbetween testing: if start year > end year, return nothing; zero, one, two, all, checking none for both start and
 #check that book results are returned in sorted order by pub year
+#check if user sort option works
 
 if __name__ == '__main__':
     unittest.main()
