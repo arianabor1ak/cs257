@@ -31,7 +31,7 @@ class BooksDataSourceTester(unittest.TestCase):
        
     def test_no_book(self):
         books = self.data_source.books('jaskfldjfa')
-        self.assertTrue(len(authors) == 0)
+        self.assertTrue(len(books) == 0)
 
     #tests for author
     def test_all_authors(self):
