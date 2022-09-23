@@ -1,3 +1,5 @@
+Ariana Borlak, Sophia Wang
+
 '''
    booksdatasourcetest.py
    Jeff Ondich, 24 September 2021
@@ -26,7 +28,11 @@ class BooksDataSourceTester(unittest.TestCase):
         books = self.data_source.books('1q84')
         self.assertTrue(len(books) == 1)
         self.assertTrue(books[0].title == '1Q84')
-        
+       
+    def test_no_book(self):
+        books = self.data_source.books('jaskfldjfa')
+        self.assertTrue(len(authors) == 0)
+
     #tests for author
     def test_all_authors(self):
         tiny_data_source = BooksDataSource('tinybooks.csv')
