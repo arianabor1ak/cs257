@@ -10,6 +10,8 @@
 
 import csv
 
+csv_file_name = open('books1.csv')
+
 class Author:
     def __init__(self, surname='', given_name='', birth_year=None, death_year=None):
         self.surname = surname
