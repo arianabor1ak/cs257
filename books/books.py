@@ -74,6 +74,9 @@ class BooksDataSource:
             
             bookOb = Book(listTitle, listYear, auth)
 
+            bookList.append(bookOb)
+            authorList.append(auth)
+
         pass
 
     def authors(self, search_text=None):
@@ -82,7 +85,14 @@ class BooksDataSource:
             returns all of the Author objects. In either case, the returned list is sorted
             by surname, breaking ties using given name (e.g. Ann Brontë comes before Charlotte Brontë).
         '''
-        return []
+        authResults = list()
+        if search_text == "":
+            authResults = authorList
+        for author in authorList:
+            if search_text == author.surname or search_text == author.birth_name or search_text == birth_name + " " + surname or search_text == surname + " " + birth_name or search_text == surname + ", " + birth_name:
+                authResults.append(author)
+            #make sure it's sorted
+        return authResults
 
     def books(self, search_text=None, sort_by='title'):
         ''' Returns a list of all the Book objects in this data source whose
@@ -96,7 +106,13 @@ class BooksDataSource:
                 default -- same as 'title' (that is, if sort_by is anything other than 'year'
                             or 'title', just do the same thing you would do for 'title')
         '''
-        return []
+        bookResults = list()
+        if search_text == "":
+            authResults = authorList
+        for book in bookList:
+            if search_text == book.title:
+                bookResults.append(book)
+        return bookResults
 
     def books_between_years(self, start_year=None, end_year=None):
         ''' Returns a list of all the Book objects in this data source whose publication
