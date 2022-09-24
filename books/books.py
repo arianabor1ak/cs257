@@ -125,5 +125,17 @@ class BooksDataSource:
             during start_year should be included. If both are None, then all books
             should be included.
         '''
-        return []
+        #check input is numbers
+        #force users to input lesser to greater (or else no results :P)
+        yearResults = list()
+        if start_year == "" and end_year == "":
+            yearResults = bookList
+        for book in bookList:
+            if start_year == "" and book.publication_year <= end_year:
+                yearResults.append(book)
+            elif end_year == "" and book.publication_year >= start_year:
+                yearResults.append(book)
+            elif book.publication_year >= start_year and book.publication_year <= end_year:
+                yearResults.append(book)
+        return yearResults
 
