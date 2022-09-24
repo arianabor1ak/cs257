@@ -38,6 +38,8 @@ class Book:
         return self.title == other.title
 
 class BooksDataSource:
+    bookList = list()
+    authorList = list()
     def __init__(self, books_csv_file_name):
         ''' The books CSV file format looks like this:
 
@@ -52,6 +54,26 @@ class BooksDataSource:
             suitable instance variables for the BooksDataSource object containing
             a collection of Author objects and a collection of Book objects.
         '''
+        for line in file:
+            info = line.split(",") #need to accommodate case with commas in title
+            listTitle, listYear, listAuth = info[0], info[1], info[2]
+
+            authSplit = listAuth.split()
+            #don't create multiple authors for books written by same person
+            #create multiple separate authors for books written by 2+ people
+            listAuthYear = authSplit[len(authSplit) -1]
+            listAuthYear = listAuthYear.strip("()")
+            listAuthYear = listAuthYear.split("-")
+        
+            i = 1
+            surname = ""
+            while i!> len(authSplit) -2:
+                surname += authSplit[i]
+                i++
+            auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
+            
+            bookOb = Book(listTitle, listYear, auth)
+
         pass
 
     def authors(self, search_text=None):
