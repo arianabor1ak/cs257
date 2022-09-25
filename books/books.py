@@ -10,8 +10,6 @@
 
 import csv
 
-csv_file_name = open('books1.csv')
-
 class Author:
     def __init__(self, surname='', given_name='', birth_year=None, death_year=None):
         self.surname = surname
@@ -138,4 +136,13 @@ class BooksDataSource:
             elif book.publication_year >= start_year and book.publication_year <= end_year:
                 yearResults.append(book)
         return yearResults
+
+def main():
+    books_file = open('books1.csv')
+    #take in input
+    #call method according to input
+    books_file.close()
+
+if __name__ == "__main__":
+    main()
 
