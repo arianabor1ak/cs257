@@ -139,6 +139,7 @@ class BooksDataSource:
 
 def main():
     books_file = open('books1.csv')
+    dataSource = BooksDataSource(books_file)
     #take in input
     #call method according to input
     books_file.close()
