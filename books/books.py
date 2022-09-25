@@ -84,12 +84,22 @@ class BooksDataSource:
             by surname, breaking ties using given name (e.g. Ann Brontë comes before Charlotte Brontë).
         '''
         authResults = list()
-        if search_text == "":
+
+        searchLower = search_text.lower()
+
+        if searchLower == "":
             authResults = authorList
         for author in authorList:
-            if search_text == author.surname or search_text == author.birth_name or search_text == birth_name + " " + surname or search_text == surname + " " + birth_name or search_text == surname + ", " + birth_name:
+            surLower = author.surname.lower()
+            givenLower = author.given_name.lower()
+
+            if searchLower in surLower or searchLower in givenLower:
                 authResults.append(author)
-        
+            elif searchLower in givenLower + " " + surLower or searchLower in surLower + " " + givenLower:
+                authResults.append(author)
+            elif searchLower in givenLower + ", " + surLower or searchLower in surLower + ", " + givenLower:
+                authResults.append(author)
+        #diacritics should be considered, but that's a problem for later 
         authResults.sort(key = lambda authOb: (authOb.surname, authOb.given_name))
         return authResults
 
@@ -107,13 +117,18 @@ class BooksDataSource:
         '''
         #if users search by title with apostrophe (like let's) but don't include the apostrophe, show the result anyway?
         bookResults = list()
-        if search_text == "":
+
+        searchLower = search_text.lower()
+
+        if searchLower == "":
             authResults = authorList
+
         for book in bookList:
-            if search_text == book.title:
+            titleLower = book.title.lower()
+            if searchLower in titleLower:
                 bookResults.append(book)
 
-        if sort_by == "year":
+        if sort_by.lower() == "year":
             bookResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
             return bookResults
         else
