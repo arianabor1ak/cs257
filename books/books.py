@@ -9,6 +9,7 @@
 '''
 
 import csv
+import sys
 
 class Author:
     def __init__(self, surname='', given_name='', birth_year=None, death_year=None):
@@ -165,6 +166,19 @@ class BooksDataSource:
 def main():
     books_file = open('books1.csv')
     dataSource = BooksDataSource(books_file)
+    if len(sys.argv) == 1:
+        #return all books
+    elif sys.argv[1] == "-h" or sys.argv[1] == "--help":
+        #return usage.txt
+    elif sys.argv[1] == "-t" or sys.argv[1] == "--title":
+        #sort by title
+        #need to accommodate SORT capability
+    elif sys.argv[1] == "-a" or sys.argv[1] == "--author":
+        #sort by author
+    elif sys.argv[1] == "-y" or sys.argv[1] == "--year":
+        #sort by publication year
+
+
     #take in input
     #call method according to input
     books_file.close()
