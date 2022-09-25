@@ -122,7 +122,7 @@ class BooksDataSource:
         searchLower = search_text.lower()
 
         if searchLower == "":
-            authResults = authorList
+            bookResults = bookList
 
         for book in bookList:
             titleLower = book.title.lower()
