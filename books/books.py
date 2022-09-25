@@ -142,6 +142,8 @@ class BooksDataSource:
             if searchLower in titleLower:
                 bookResults.append(book)
 
+
+        #Since I don't remember how to sort by attribute, I looked up it up and found https://runestone.academy/ns/books/published/fopp/Sorting/SecondarySortOrder.html
         if sort_by.lower() == "year":
             bookResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
             return bookResults
@@ -174,6 +176,7 @@ class BooksDataSource:
             elif book.publication_year >= start_year and book.publication_year <= end_year:
                 yearResults.append(book)
 
+        #Since I don't remember how to sort by attribute, I looked up it up and found https://runestone.academy/ns/books/published/fopp/Sorting/SecondarySortOrder.html
         yearResults.sort(key = lambda bookOb: (bookOb.publication_year, book0b.title))
         return yearResults
 
