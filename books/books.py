@@ -89,7 +89,8 @@ class BooksDataSource:
         for author in authorList:
             if search_text == author.surname or search_text == author.birth_name or search_text == birth_name + " " + surname or search_text == surname + " " + birth_name or search_text == surname + ", " + birth_name:
                 authResults.append(author)
-            #make sure it's sorted
+        
+        authResults.sort(key = lambda authOb: (authOb.surname, authOb.given_name))
         return authResults
 
     def books(self, search_text=None, sort_by='title'):
@@ -104,13 +105,20 @@ class BooksDataSource:
                 default -- same as 'title' (that is, if sort_by is anything other than 'year'
                             or 'title', just do the same thing you would do for 'title')
         '''
+        #if users search by title with apostrophe (like let's) but don't include the apostrophe, show the result anyway?
         bookResults = list()
         if search_text == "":
             authResults = authorList
         for book in bookList:
             if search_text == book.title:
                 bookResults.append(book)
-        return bookResults
+
+        if sort_by == "year":
+            bookResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
+            return bookResults
+        else
+            bookResults.sort(key = lambda bookOb: (bookOb.title, bookOb.publication_year))
+            return bookResults
 
     def books_between_years(self, start_year=None, end_year=None):
         ''' Returns a list of all the Book objects in this data source whose publication
@@ -135,6 +143,8 @@ class BooksDataSource:
                 yearResults.append(book)
             elif book.publication_year >= start_year and book.publication_year <= end_year:
                 yearResults.append(book)
+
+        yearResults.sort(key = lambda bookOb: (bookOb.publication_year, book0b.title))
         return yearResults
 
 def main():
