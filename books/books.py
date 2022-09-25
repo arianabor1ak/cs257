@@ -55,15 +55,26 @@ class BooksDataSource:
         '''
         for line in file:
             info = line.split(",") #need to accommodate case with commas in title
-            listTitle, listYear, listAuth = info[0], info[1], info[2]
+            listTitle, listYear, listAuth = info[0], info[1], info[2] 
 
+            multAuthSplit = listAuth.split()
+            
+            for word in multAuthSplit:
+                if multAuthSplit[word] == "and":
+                    #then we have more than one author
+                    #for all of the items in the list before and, do what's below for one author
+                    listAuthYear = multAuthSplit
+
+            #we need a for loop that takes each author separately. how do we do that.  
             authSplit = listAuth.split()
-            #don't create multiple authors for books written by same person
-            #create multiple separate authors for books written by 2+ people
+            #don't create multiple authors for books written by same person (maybe done?)
             listAuthYear = authSplit[len(authSplit) -1]
             listAuthYear = listAuthYear.strip("()")
             listAuthYear = listAuthYear.split("-")
-        
+
+            #the way this is set up now, we don't consider whether someone can have two first names instead of
+            #two last names. I'm not sure if we can even differentiate between what's a first name and what's
+            #a last name. I guess for now continue to assume only possible to have 2 last names and not 2 first.
             i = 1
             surname = ""
             while i!> len(authSplit) -2:
@@ -74,7 +85,8 @@ class BooksDataSource:
             bookOb = Book(listTitle, listYear, auth)
 
             bookList.append(bookOb)
-            authorList.append(auth)
+
+            authList.append(auth)
 
         pass
 
@@ -100,7 +112,8 @@ class BooksDataSource:
                 authResults.append(author)
             elif searchLower in givenLower + ", " + surLower or searchLower in surLower + ", " + givenLower:
                 authResults.append(author)
-        #diacritics should be considered, but that's a problem for later 
+        #diacritics should be considered, but that's a problem for later
+        #Since I don't remember how to sort by attribute, I looked up it up and found https://runestone.academy/ns/books/published/fopp/Sorting/SecondarySortOrder.html
         authResults.sort(key = lambda authOb: (authOb.surname, authOb.given_name))
         return authResults
 
@@ -147,7 +160,8 @@ class BooksDataSource:
             during start_year should be included. If both are None, then all books
             should be included.
         '''
-        #check input is numbers
+        #check input is numbers(? if they input strings, does this matter?)
+
         #force users to input lesser to greater (or else no results :P)
         yearResults = list()
         if start_year == "" and end_year == "":
