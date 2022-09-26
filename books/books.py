@@ -194,6 +194,8 @@ def main():
         #sort by author
     elif sys.argv[1] == "-y" or sys.argv[1] == "--year":
         #sort by publication year
+    else:
+        #return error message
 
 
     #take in input
