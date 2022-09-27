@@ -53,7 +53,9 @@ class BooksDataSource:
             suitable instance variables for the BooksDataSource object containing
             a collection of Author objects and a collection of Book objects.
         '''
-        for line in file:
+        #I couldn't remember how to skip commas in quotes, but I knew there was a way to do it, so I looked it up
+        #Citation is https://stackoverflow.com/questions/21527057/python-parse-csv-ignoring-comma-with-double-quotes
+        for line in csv.reader(books_csv_file_name, quotechar = '"', delimiter = ',', skipinitialspace=True):
            info = line.split(",") #need to accommodate case with commas in title
             listTitle, listYear, listAuth = info[0], info[1], info[2] 
 
