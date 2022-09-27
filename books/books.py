@@ -54,33 +54,48 @@ class BooksDataSource:
             a collection of Author objects and a collection of Book objects.
         '''
         for line in file:
-            info = line.split(",") #need to accommodate case with commas in title
+           info = line.split(",") #need to accommodate case with commas in title
             listTitle, listYear, listAuth = info[0], info[1], info[2] 
 
             multAuthSplit = listAuth.split()
-            
+            authsplit = list()
+
             for word in multAuthSplit:
-                if multAuthSplit[word] == "and":
+                if multAuthSplit[word] != "and":
+                    authSplit.append(multAuthSplit[word])
+                    listAuthYear = authSplit[len(authSplit) - 1]
+                    listAuthYear = listAuthYear.strip("()")
+                    listAuthYear = listAuthYear.split("-")
+
+                    i = 1
+                    surname = ""
+                    while i <= len(authSplit) -2:
+                        surname += authSplit[i]
+                        if i < len(authSplit) -2:
+                            surname += " "
+                        i++
                     #then we have more than one author
                     #for all of the items in the list before and, do what's below for one author
-                    listAuthYear = multAuthSplit
+                else:
+                    auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
+                    while len(authSplit) > 0:
+                        authSplit.pop()
 
             #we need a for loop that takes each author separately. how do we do that.  
-            authSplit = listAuth.split()
-            #don't create multiple authors for books written by same person (maybe done?)
-            listAuthYear = authSplit[len(authSplit) -1]
-            listAuthYear = listAuthYear.strip("()")
-            listAuthYear = listAuthYear.split("-")
+            #authSplit = listAuth.split()
+            #listAuthYear = authSplit[len(authSplit) -1]
+            #listAuthYear = listAuthYear.strip("()")
+            #listAuthYear = listAuthYear.split("-")
 
             #the way this is set up now, we don't consider whether someone can have two first names instead of
             #two last names. I'm not sure if we can even differentiate between what's a first name and what's
             #a last name. I guess for now continue to assume only possible to have 2 last names and not 2 first.
-            i = 1
-            surname = ""
-            while i!> len(authSplit) -2:
-                surname += authSplit[i]
-                i++
-            auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
+            #i = 1
+            #surname = ""
+            #while i!> len(authSplit) -2:
+            #   surname += authSplit[i]
+            #    i++
+            #auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
             
             bookOb = Book(listTitle, listYear, auth)
 
