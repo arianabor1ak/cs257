@@ -37,8 +37,7 @@ class Book:
         return self.title == other.title
 
 class BooksDataSource:
-    bookList = list()
-    authorList = list()
+
     def __init__(self, books_csv_file_name):
         ''' The books CSV file format looks like this:
 
@@ -53,14 +52,19 @@ class BooksDataSource:
             suitable instance variables for the BooksDataSource object containing
             a collection of Author objects and a collection of Book objects.
         '''
+
+        self.file = books_csv_file_name
+        self.bookList = list()
+        self.authList = list()
+
         #I couldn't remember how to skip commas in quotes, but I knew there was a way to do it, so I looked it up
         #Citation is https://stackoverflow.com/questions/21527057/python-parse-csv-ignoring-comma-with-double-quotes
         for line in csv.reader(books_csv_file_name, quotechar = '"', delimiter = ',', skipinitialspace=True):
-           info = line.split(",") #need to accommodate case with commas in title
+            info = line.split(",") #need to accommodate case with commas in title
             listTitle, listYear, listAuth = info[0], info[1], info[2] 
 
             multAuthSplit = listAuth.split()
-            authsplit = list()
+            authSplit = list()
 
             for word in multAuthSplit:
                 if multAuthSplit[word] != "and":
@@ -75,7 +79,7 @@ class BooksDataSource:
                         surname += authSplit[i]
                         if i < len(authSplit) -2:
                             surname += " "
-                        i++
+                        i += 1
                     #then we have more than one author
                     #for all of the items in the list before and, do what's below for one author
                 else:
@@ -101,9 +105,9 @@ class BooksDataSource:
             
             bookOb = Book(listTitle, listYear, auth)
 
-            bookList.append(bookOb)
+            self.bookList.append(bookOb)
 
-            authList.append(auth)
+            self.authList.append(auth)
 
         pass
 
@@ -118,8 +122,8 @@ class BooksDataSource:
         searchLower = search_text.lower()
 
         if searchLower == "":
-            authResults = authorList
-        for author in authorList:
+            authResults = self.authList
+        for author in self.authList:
             surLower = author.surname.lower()
             givenLower = author.given_name.lower()
 
@@ -152,9 +156,9 @@ class BooksDataSource:
         searchLower = search_text.lower()
 
         if searchLower == "":
-            bookResults = bookList
+            bookResults = self.bookList
 
-        for book in bookList:
+        for book in self.bookList:
             titleLower = book.title.lower()
             if searchLower in titleLower:
                 bookResults.append(book)
@@ -164,7 +168,7 @@ class BooksDataSource:
         if sort_by.lower() == "year":
             bookResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
             return bookResults
-        else
+        else:
             bookResults.sort(key = lambda bookOb: (bookOb.title, bookOb.publication_year))
             return bookResults
 
@@ -184,8 +188,8 @@ class BooksDataSource:
         #force users to input lesser to greater (or else no results :P)
         yearResults = list()
         if start_year == "" and end_year == "":
-            yearResults = bookList
-        for book in bookList:
+            yearResults = self.bookList
+        for book in self.bookList:
             if start_year == "" and book.publication_year <= end_year:
                 yearResults.append(book)
             elif end_year == "" and book.publication_year >= start_year:
@@ -194,7 +198,7 @@ class BooksDataSource:
                 yearResults.append(book)
 
         #Since I don't remember how to sort by attribute, I looked up it up and found https://runestone.academy/ns/books/published/fopp/Sorting/SecondarySortOrder.html
-        yearResults.sort(key = lambda bookOb: (bookOb.publication_year, book0b.title))
+        yearResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
         return yearResults
 
 def main():
