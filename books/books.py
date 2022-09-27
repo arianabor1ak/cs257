@@ -61,7 +61,7 @@ class BooksDataSource:
         #Citation is https://stackoverflow.com/questions/21527057/python-parse-csv-ignoring-comma-with-double-quotes
         for line in csv.reader(books_csv_file_name, quotechar = '"', delimiter = ',', skipinitialspace=True):
             info = line.split(",") #need to accommodate case with commas in title
-            listTitle, listYear, listAuth = info[0], info[1], info[2] 
+            listTitle, listYear, listAuth = info[0], info[1], info[2]
 
             multAuthSplit = listAuth.split()
             authSplit = list()
@@ -87,7 +87,7 @@ class BooksDataSource:
                     while len(authSplit) > 0:
                         authSplit.pop()
 
-            #we need a for loop that takes each author separately. how do we do that.  
+            #we need a for loop that takes each author separately. how do we do that.
             #authSplit = listAuth.split()
             #listAuthYear = authSplit[len(authSplit) -1]
             #listAuthYear = listAuthYear.strip("()")
@@ -102,7 +102,7 @@ class BooksDataSource:
             #   surname += authSplit[i]
             #    i++
             #auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
-            
+
             bookOb = Book(listTitle, listYear, auth)
 
             self.bookList.append(bookOb)
@@ -205,24 +205,35 @@ def main():
     books_file = open('books1.csv')
     dataSource = BooksDataSource(books_file)
     if len(sys.argv) == 1:
-        #return all books
+        books(dataSource)
     elif sys.argv[1] == "-h" or sys.argv[1] == "--help":
-        #return usage.txt
+        usage = open('usage.txt')
+        print(usage.read())
+        usage.close()
     elif sys.argv[1] == "-t" or sys.argv[1] == "--title":
-        #sort by title
-        #need to accommodate SORT capability
+        if len(sys.arg) == 2:
+            books(argv[2])
+        elif len(sys.arg) == 1:
+            books(argv[2], argv[3])
+        else:
+            #return error
     elif sys.argv[1] == "-a" or sys.argv[1] == "--author":
-        #sort by author
+        if len(sys.arg) == 2:
+            authors(argv[2])
+        elif len(sys.arg) == 1:
+            authors(argv[2], argv[3])
+        else:
+            #return error
     elif sys.argv[1] == "-y" or sys.argv[1] == "--year":
-        #sort by publication year
+        if len(sys.arg) == 2:
+            books_between_years(argv[2])
+        elif len(sys.arg) == 1:
+            books_between_years(argv[2], argv[3])
+        else:
+            #return error
     else:
         #return error message
-
-
-    #take in input
-    #call method according to input
     books_file.close()
 
 if __name__ == "__main__":
     main()
-
