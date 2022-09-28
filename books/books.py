@@ -60,11 +60,12 @@ class BooksDataSource:
         #I couldn't remember how to skip commas in quotes, but I knew there was a way to do it, so I looked it up
         #Citation is https://stackoverflow.com/questions/21527057/python-parse-csv-ignoring-comma-with-double-quotes
         for line in csv.reader(books_csv_file_name, quotechar = '"', delimiter = ',', skipinitialspace=True):
-            info = line.split(",") #need to accommodate case with commas in title
-            listTitle, listYear, listAuth = info[0], info[1], info[2]
+            listTitle, listYear, listAuth = line[0], line[1], line[2]
 
             multAuthSplit = listAuth.split()
+            
             authSplit = list()
+            bookAuthList = list()
 
             for word in multAuthSplit:
                 if multAuthSplit[word] != "and":
@@ -73,6 +74,8 @@ class BooksDataSource:
                     #then we have more than one author
                     #for all of the items in the list before and, do what's below for one author
                 else:
+                    #whether an author can have 2+ given names is not considered. 
+                    #everything after 0th index before years is considered a surname
                     listAuthYear = authSplit[len(authSplit) - 1]
                     listAuthYear = listAuthYear.strip("()")
                     listAuthYear = listAuthYear.split("-")
@@ -91,23 +94,16 @@ class BooksDataSource:
                     while len(authSplit) > 0:
                         authSplit.pop()
 
-            #we need a for loop that takes each author separately. how do we do that.
-            #authSplit = listAuth.split()
-            #listAuthYear = authSplit[len(authSplit) -1]
-            #listAuthYear = listAuthYear.strip("()")
-            #listAuthYear = listAuthYear.split("-")
+                    #bookOb = Book(listTitle, listYear, auth)
 
-            #the way this is set up now, we don't consider whether someone can have two first names instead of
-            #two last names. I'm not sure if we can even differentiate between what's a first name and what's
-            #a last name. I guess for now continue to assume only possible to have 2 last names and not 2 first.
-            #i = 1
-            #surname = ""
-            #while i!> len(authSplit) -2:
-            #   surname += authSplit[i]
-            #    i++
-            #auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
+                    while len(authSplit) > 0:
+                        authSplit.pop()
 
-            bookOb = Book(listTitle, listYear, auth)
+            #last author is skipped over, make object for them
+            auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
+            bookAuthList.append(auth)
+
+            bookOb = Book(listTitle, listYear, bookAuthList)
 
             self.bookList.append(bookOb)
 
@@ -136,7 +132,7 @@ class BooksDataSource:
                 authResults.append(author)
             elif searchLower in givenLower + ", " + surLower or searchLower in surLower + ", " + givenLower:
                 authResults.append(author)
-        #diacritics should be considered, but that's a problem for later
+
         #Since I don't remember how to sort by attribute, I looked up it up and found https://runestone.academy/ns/books/published/fopp/Sorting/SecondarySortOrder.html
         authResults.sort(key = lambda authOb: (authOb.surname, authOb.given_name))
         return authResults
