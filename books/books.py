@@ -206,9 +206,6 @@ class BooksDataSource:
         yearResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
         return yearResults
 
-def printList():
-    #prints items in list
-
 def main():
     books_file = open('books1.csv')
     dataSource = BooksDataSource(books_file)
