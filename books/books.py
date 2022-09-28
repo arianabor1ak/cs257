@@ -71,8 +71,6 @@ class BooksDataSource:
                 if multAuthSplit[word] != "and":
                     authSplit.append(multAuthSplit[word])
 
-                    #then we have more than one author
-                    #for all of the items in the list before and, do what's below for one author
                 else:
                     #whether an author can have 2+ given names is not considered.
                     #everything after 0th index before years is considered a surname
@@ -94,12 +92,10 @@ class BooksDataSource:
                     while len(authSplit) > 0:
                         authSplit.pop()
 
-                    #bookOb = Book(listTitle, listYear, auth)
-
                     while len(authSplit) > 0:
                         authSplit.pop()
 
-            #last author is skipped over, make object for them
+            #last (or first if only one) author is skipped over, make object for them
             auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
             bookAuthList.append(auth)
 
@@ -149,7 +145,6 @@ class BooksDataSource:
                 default -- same as 'title' (that is, if sort_by is anything other than 'year'
                             or 'title', just do the same thing you would do for 'title')
         '''
-        #if users search by title with apostrophe (like let's) but don't include the apostrophe, show the result anyway?
         bookResults = list()
 
         searchLower = search_text.lower()
@@ -182,7 +177,6 @@ class BooksDataSource:
             during start_year should be included. If both are None, then all books
             should be included.
         '''
-        #check input is numbers(? if they input strings, does this matter?)
 
         #force users to input lesser to greater (or else no results :P)
         yearResults = list()
