@@ -69,7 +69,7 @@ class BooksDataSource:
             for word in multAuthSplit:
                 if multAuthSplit[word] != "and":
                     authSplit.append(multAuthSplit[word])
-                    
+
                     #then we have more than one author
                     #for all of the items in the list before and, do what's below for one author
                 else:
@@ -87,7 +87,7 @@ class BooksDataSource:
 
                     auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
                     self.authList.append(auth)
-                    
+
                     while len(authSplit) > 0:
                         authSplit.pop()
 
@@ -208,18 +208,20 @@ def main():
     books_file = open('books1.csv')
     dataSource = BooksDataSource(books_file)
     if len(sys.argv) == 1:
-        books(dataSource)
+        output = dataSource.books()
     elif sys.argv[1] == "-h" or sys.argv[1] == "--help":
         usage = open('usage.txt')
         print(usage.read())
         usage.close()
     elif sys.argv[1] == "-t" or sys.argv[1] == "--title":
         if len(sys.arg) == 2:
+            output = dataSource.books()
+        elif len(sys.arg) == 3:
             books(argv[2])
-        elif len(sys.arg) == 1:
+        elif len(sys.arg) == 4:
             books(argv[2], argv[3])
         else:
-            #return error
+            #raise
             pass
     elif sys.argv[1] == "-a" or sys.argv[1] == "--author":
         if len(sys.arg) == 2:
