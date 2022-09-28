@@ -10,6 +10,7 @@
 
 import csv
 import sys
+from types import NoneType
 
 class Author:
     def __init__(self, surname='', given_name='', birth_year=None, death_year=None):
@@ -73,9 +74,10 @@ class BooksDataSource:
             authSplit = list()
             bookAuthList = list()
 
+
             for word in multAuthSplit:
-                if multAuthSplit[word] != "and":
-                    authSplit.append(multAuthSplit[word])
+                if word != "and":
+                    authSplit.append(word)
 
                     #then we have more than one author
                     #for all of the items in the list before and, do what's below for one author
@@ -102,10 +104,21 @@ class BooksDataSource:
 
                     #bookOb = Book(listTitle, listYear, auth)
 
-                    while len(authSplit) > 0:
-                        authSplit.pop()
 
             #last author is skipped over, make object for them
+
+            listAuthYear = authSplit[len(authSplit) - 1]
+            listAuthYear = listAuthYear.strip("()")
+            listAuthYear = listAuthYear.split("-")
+
+            i = 1
+            surname = ""
+            while i <= len(authSplit) -2:
+                surname += authSplit[i]
+                if i < len(authSplit) -2:
+                    surname += " "
+                i += 1
+
             auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
             bookAuthList.append(auth)
 
@@ -158,7 +171,8 @@ class BooksDataSource:
         #if users search by title with apostrophe (like let's) but don't include the apostrophe, show the result anyway?
         bookResults = list()
 
-        searchLower = search_text.lower()
+        if(search_text.type() != NoneType):
+            searchLower = search_text.lower()
 
         if searchLower == "":
             bookResults = self.bookList
@@ -243,7 +257,7 @@ def main():
         else:
             raise SyntaxError('Wrong number of arguments')
     else:
-        raise SyntaxError(Invalid command)
+        raise SyntaxError("Invalid command")
     books_file.close()
 
     for item in output:
