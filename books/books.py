@@ -69,6 +69,10 @@ class BooksDataSource:
             for word in multAuthSplit:
                 if multAuthSplit[word] != "and":
                     authSplit.append(multAuthSplit[word])
+                    
+                    #then we have more than one author
+                    #for all of the items in the list before and, do what's below for one author
+                else:
                     listAuthYear = authSplit[len(authSplit) - 1]
                     listAuthYear = listAuthYear.strip("()")
                     listAuthYear = listAuthYear.split("-")
@@ -80,10 +84,10 @@ class BooksDataSource:
                         if i < len(authSplit) -2:
                             surname += " "
                         i += 1
-                    #then we have more than one author
-                    #for all of the items in the list before and, do what's below for one author
-                else:
+
                     auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
+                    self.authList.append(auth)
+                    
                     while len(authSplit) > 0:
                         authSplit.pop()
 
@@ -107,7 +111,6 @@ class BooksDataSource:
 
             self.bookList.append(bookOb)
 
-            self.authList.append(auth)
 
         pass
 
@@ -217,6 +220,7 @@ def main():
             books(argv[2], argv[3])
         else:
             #return error
+            pass
     elif sys.argv[1] == "-a" or sys.argv[1] == "--author":
         if len(sys.arg) == 2:
             authors(argv[2])
@@ -224,6 +228,7 @@ def main():
             authors(argv[2], argv[3])
         else:
             #return error
+            pass
     elif sys.argv[1] == "-y" or sys.argv[1] == "--year":
         if len(sys.arg) == 2:
             books_between_years(argv[2])
@@ -231,8 +236,10 @@ def main():
             books_between_years(argv[2], argv[3])
         else:
             #return error
+            pass
     else:
         #return error message
+        pass
     books_file.close()
 
 if __name__ == "__main__":
