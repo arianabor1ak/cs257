@@ -63,7 +63,7 @@ class BooksDataSource:
             listTitle, listYear, listAuth = line[0], line[1], line[2]
 
             multAuthSplit = listAuth.split()
-            
+
             authSplit = list()
             bookAuthList = list()
 
@@ -74,7 +74,7 @@ class BooksDataSource:
                     #then we have more than one author
                     #for all of the items in the list before and, do what's below for one author
                 else:
-                    #whether an author can have 2+ given names is not considered. 
+                    #whether an author can have 2+ given names is not considered.
                     #everything after 0th index before years is considered a surname
                     listAuthYear = authSplit[len(authSplit) - 1]
                     listAuthYear = listAuthYear.strip("()")
@@ -217,27 +217,27 @@ def main():
         elif len(sys.arg) == 4:
             books(argv[2], argv[3])
         else:
-            #raise
-            pass
+            raise SyntaxError('Wrong number of arguments')
     elif sys.argv[1] == "-a" or sys.argv[1] == "--author":
         if len(sys.arg) == 2:
+            output = dataSource.books()
+        elif len(sys.arg) == 3:
             authors(argv[2])
-        elif len(sys.arg) == 1:
+        elif len(sys.arg) == 4:
             authors(argv[2], argv[3])
         else:
-            #return error
-            pass
+            raise SyntaxError('Wrong number of arguments')
     elif sys.argv[1] == "-y" or sys.argv[1] == "--year":
         if len(sys.arg) == 2:
+            output = dataSource.books()
+        elif len(sys.arg) == 3:
             books_between_years(argv[2])
-        elif len(sys.arg) == 1:
+        elif len(sys.arg) == 4:
             books_between_years(argv[2], argv[3])
         else:
-            #return error
-            pass
+            raise SyntaxError('Wrong number of arguments')
     else:
         #return error message
-        pass
     books_file.close()
 
 if __name__ == "__main__":
