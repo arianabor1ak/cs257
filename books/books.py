@@ -22,7 +22,7 @@ class Author:
         ''' For simplicity, we're going to assume that no two authors have the same name. '''
         return self.surname == other.surname and self.given_name == other.given_name
 
-    def __printAuth__(self):
+    def printAuth(self):
         print(self.given_name + " " + self.surname + " (" + self.birth_year + "-" + self.death_year + ")")
 
 class Book:
@@ -39,7 +39,7 @@ class Book:
             thing as "same book". '''
         return self.title == other.title
 
-    def __printBook__(self):
+    def printBook(self):
         print(self.title + ", " + self.publication_year + ", by " + self.authors)
 
 class BooksDataSource:
@@ -206,6 +206,9 @@ class BooksDataSource:
         yearResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
         return yearResults
 
+def printList():
+    #prints items in list
+
 def main():
     books_file = open('books1.csv')
     dataSource = BooksDataSource(books_file)
@@ -245,6 +248,12 @@ def main():
     else:
         raise SyntaxError(Invalid command)
     books_file.close()
+
+    for item in output:
+        if isinstance(item, Author):
+            item.printAuth()
+        elif isinstance(item, Book):
+            item.printBook()
 
 if __name__ == "__main__":
     main()
