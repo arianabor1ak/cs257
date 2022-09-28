@@ -257,7 +257,6 @@ def main():
         else:
             raise SyntaxError('Wrong number of arguments')
     else:
-<<<<<<< HEAD
         raise SyntaxError('Invalid command')
     books_file.close()
 
