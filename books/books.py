@@ -200,6 +200,9 @@ class BooksDataSource:
         yearResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
         return yearResults
 
+def printList():
+    
+
 def main():
     books_file = open('books1.csv')
     dataSource = BooksDataSource(books_file)
@@ -237,8 +240,10 @@ def main():
         else:
             raise SyntaxError('Wrong number of arguments')
     else:
-        #return error message
+        raise SyntaxError(Invalid command)
     books_file.close()
+
+    printList(output)
 
 if __name__ == "__main__":
     main()
