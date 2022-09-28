@@ -201,7 +201,6 @@ class BooksDataSource:
         return yearResults
 
 def printList():
-    
 
 def main():
     books_file = open('books1.csv')
