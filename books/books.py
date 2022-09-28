@@ -213,18 +213,21 @@ def main():
         if len(sys.arg) == 2:
             output = dataSource.books()
         elif len(sys.arg) == 3:
-            books(argv[2])
+            books(sys.argv[2])
         elif len(sys.arg) == 4:
-            books(argv[2], argv[3])
+            books(sys.argv[2], sys.argv[3])
         else:
             raise SyntaxError('Wrong number of arguments')
     elif sys.argv[1] == "-a" or sys.argv[1] == "--author":
         if len(sys.arg) == 2:
-            output = dataSource.books()
-        elif len(sys.arg) == 3:
-            authors(argv[2])
-        elif len(sys.arg) == 4:
-            authors(argv[2], argv[3])
+            #output = dataSource.books()
+        # elif len(sys.arg) == 3:
+        #     authors(argv[2])
+        # elif len(sys.arg) == 4:
+        #     authors(argv[2], argv[3])
+            authors(sys.argv[2])
+        elif len(sys.arg) == 1:
+            authors(sys.argv[2], sys.argv[3])
         else:
             raise SyntaxError('Wrong number of arguments')
     elif sys.argv[1] == "-y" or sys.argv[1] == "--year":
