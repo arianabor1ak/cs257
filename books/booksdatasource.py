@@ -9,7 +9,6 @@
 
 import csv
 import sys
-from types import NoneType
 
 class Author:
     def __init__(self, surname='', given_name='', birth_year=None, death_year=None):

@@ -10,7 +10,6 @@
 
 import csv
 import sys
-from types import NoneType
 import booksdatasource
 
 
