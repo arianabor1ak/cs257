@@ -47,7 +47,7 @@ def main():
             output = dataSource.authors(sys.argv[3], sys.argv[4])
         else:
             raise SyntaxError('Wrong number of arguments')
-    elif sys.argv[2] == "-y" or sys.argv[1] == "--year":
+    elif sys.argv[2] == "-y" or sys.argv[2] == "--year":
         if len(sys.argv) == 3:
             output = dataSource.books_between_years()
         elif len(sys.argv) == 4:

@@ -181,7 +181,12 @@ class BooksDataSource:
 
         if search_text == None or search_text == "None":
             bookResults = self.bookList
-            bookResults.sort(key = lambda bookOb: (bookOb.title, bookOb.publication_year))
+            if sort_by.lower() == "year":
+                bookResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
+                return bookResults
+            else:
+                bookResults.sort(key = lambda bookOb: (bookOb.title, bookOb.publication_year))
+                return bookResults
             return bookResults
 
         searchLower = search_text.lower()
@@ -242,3 +247,4 @@ if __name__ == "__main__":
 #handle None for books_between_years (start)
 #handle None for books with None search string but yes sorting change
 #fix general style, add comments
+#sort by year isn't working
