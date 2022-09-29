@@ -120,12 +120,20 @@ class BooksDataSource:
                 if i < len(authSplit) -2:
                     surname += " "
                 i += 1
-
+            
             auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
+            if auth not in self.bookAuthList:
+                self.bookAuthList.append(auth)
             authList.append(auth)
-            self.bookAuthList.append(auth)
+            
 
             bookOb = Book(listTitle, listYear, authList)
+
+            # checkString = auth.given_name + " " + auth.surname + " (" + auth.birth_year + "-" + auth.death_year + ")"
+
+            # if checkString in self.bookAuthList:
+            #     while checkString in self.bookAuthList:
+            #         self.bookAuthList.remove(checkString)
 
             self.bookList.append(bookOb)
 
