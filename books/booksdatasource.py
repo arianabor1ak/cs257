@@ -39,7 +39,10 @@ class Book:
         return self.title == other.title
 
     def printBook(self):
-        print(self.title + ", " + self.publication_year + ", by " + self.authors)
+        bookAuthor = ""
+        for author in self.authors:
+            bookAuthor += author.given_name + " " + author.surname
+        print(self.title + ", " + self.publication_year + ", by " + bookAuthor)
 
 class BooksDataSource:
 
