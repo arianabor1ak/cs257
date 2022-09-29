@@ -27,6 +27,7 @@ def main():
         usage.close()
         return
     books_file = open(sys.argv[1])
+    #print(sys.argv[1])
     dataSource = booksdatasource.BooksDataSource(books_file)
     if len(sys.argv) == 2:
         output = dataSource.books()

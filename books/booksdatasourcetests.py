@@ -38,9 +38,9 @@ class BooksDataSourceTester(unittest.TestCase):
         tiny_data_source = BooksDataSource('tinybooks.csv')
         authors = tiny_data_source.authors()
         self.assertTrue(len(authors) == 3)
-        self.assertTrue(authors[0].title == 'Austen', 'Jane')
-        self.assertTrue(authors[1].title == 'Gaiman', 'Neil')
-        self.assertTrue(authors[2].title == 'Melville', 'Herman')
+        self.assertTrue(authors[0] == Author('Austen', 'Jane'))
+        self.assertTrue(authors[1] == Author('Gaiman', 'Neil'))
+        self.assertTrue(authors[2] == Author('Melville', 'Herman'))
 
     def test_unique_author(self):
         authors = self.data_source.authors('Pratchett')
@@ -68,16 +68,15 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(books[2].title == 'Neverwhere')
 
     def test_unique_year(self):
-        books = self.data_source.books_between_years('1813', '1813')
+        books = self.data_source.books_between_years('1815', '1815')
         self.assertTrue(len(books) == 1)
-        self.assertTrue(books[0].title == 'Sense and Sensibility')
+        self.assertTrue(books[0].title == 'Emma')
 
     def test_multiple_year(self):
-        books = self.data_source.books_between_years('2019', '2019')
-        self.assertTrue(len(books) == 3)
+        books = self.data_source.books_between_years('2018', '2019')
+        self.assertTrue(len(books) == 2)
         self.assertTrue(books[0].title == 'There, There')
-        self.assertTrue(books[1].title == 'All Clear')
-        self.assertTrue(books[2].title == 'Fine, Thanks')
+        self.assertTrue(books[1].title == 'Fine, Thanks')
 
     def test_no_year(self):
         #testing wrong order (greater first, lesser second) doesn't work because we want it to reorder it always
