@@ -156,7 +156,8 @@ class BooksDataSource:
             elif searchLower in givenLower + ", " + surLower or searchLower in surLower + ", " + givenLower:
                 authResults.append(author)
 
-        #Since I don't remember how to sort by attribute, I looked up it up and found https://runestone.academy/ns/books/published/fopp/Sorting/SecondarySortOrder.html
+        #Since I don't remember how to sort by attribute, I looked up it up and found
+        #https://runestone.academy/ns/books/published/fopp/Sorting/SecondarySortOrder.html
         authResults.sort(key = lambda authOb: (authOb.surname, authOb.given_name))
         return authResults
 
@@ -188,7 +189,8 @@ class BooksDataSource:
                 bookResults.append(book)
 
 
-        #Since I don't remember how to sort by attribute, I looked up it up and found https://runestone.academy/ns/books/published/fopp/Sorting/SecondarySortOrder.html
+        #Since I don't remember how to sort by attribute, I looked up it up and found
+        #https://runestone.academy/ns/books/published/fopp/Sorting/SecondarySortOrder.html
         if sort_by.lower() == "year":
             bookResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
             return bookResults
@@ -221,7 +223,8 @@ class BooksDataSource:
             elif book.publication_year >= start_year and book.publication_year <= end_year:
                 yearResults.append(book)
 
-        #Since I don't remember how to sort by attribute, I looked up it up and found https://runestone.academy/ns/books/published/fopp/Sorting/SecondarySortOrder.html
+        #Since I don't remember how to sort by attribute, I looked up it up and found
+        #https://runestone.academy/ns/books/published/fopp/Sorting/SecondarySortOrder.html
         yearResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
         return yearResults
 
