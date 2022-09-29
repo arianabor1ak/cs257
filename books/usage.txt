@@ -13,7 +13,7 @@ DESCRIPTION
 	returns all books.
 
 	-t, --title [sort]
-		Search for <string> in titles within books file and list in alphabetical order by title; SORT can
+		Search for <string> in titles within books file and list in alphabetical order by title; sort can
 		be 'title' or 'year'
 
 	-a, --author

@@ -180,6 +180,7 @@ class BooksDataSource:
 
         if search_text == None:
             bookResults = self.bookList
+            bookResults.sort(key = lambda bookOb: (bookOb.title, bookOb.publication_year))
             return bookResults
 
         searchLower = search_text.lower()
