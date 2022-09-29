@@ -1,3 +1,4 @@
+#Sophia Wang and Ariana Borlak
 #!/usr/bin/env python3
 '''
     booksdatasource.py
@@ -246,5 +247,6 @@ if __name__ == "__main__":
 #files to be input
 #change the names of variables
 #handle None for books_between_years (start)
-#handle None for books with None search string but yes sorting change
+#handle None for books with
+# search string but yes sorting change
 #fix general style, add comments
