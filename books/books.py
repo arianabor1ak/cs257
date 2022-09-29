@@ -60,5 +60,4 @@ def main():
         elif isinstance(item, Book):
             item.printBook()
 
-if __name__ == "__main__":
-    main()
+main()
