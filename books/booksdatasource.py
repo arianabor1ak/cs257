@@ -142,6 +142,7 @@ class BooksDataSource:
 
         if search_text == None:
             authResults = self.bookAuthList
+            authResults.sort(key = lambda authOb: (authOb.surname, authOb.given_name))
             return authResults
 
         searchLower = search_text.lower()
@@ -218,6 +219,7 @@ class BooksDataSource:
         yearResults = list()
         if start_year == None and end_year == None:
             yearResults = self.bookList
+            yearResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
             return yearResults
         for book in self.bookList:
             if start_year == None and book.publication_year <= end_year:
