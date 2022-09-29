@@ -6,7 +6,7 @@ NAME
 	books - list matching results in file
 
 SYNOPSIS
-	python3 books.py <file> [-h | --help] [<option> [string]... [sort]]
+	python3 books.py [-h | --help] [<file>  [<option> [string]... [sort]]]
 
 DESCRIPTION
 	Lists all results from a books CSV file matching a case-insensitive [string] according to <option>. Indicating no option

@@ -20,15 +20,16 @@ import booksdatasource
 def main():
     if len(sys.argv) < 2:
         #raise an error: too few arguments
-        pass
+        raise SyntaxError('Too few arguments, type python3 books.py -h for help')
+    if sys.argv[1] == "-h" or sys.argv[1] == "--help":
+        usage = open('usage.txt')
+        print(usage.read())
+        usage.close()
+        return
     books_file = open(sys.argv[1])
     dataSource = booksdatasource.BooksDataSource(books_file)
     if len(sys.argv) == 2:
         output = dataSource.books()
-    elif sys.argv[2] == "-h" or sys.argv[2] == "--help":
-        usage = open('usage.txt')
-        print(usage.read())
-        usage.close()
     elif sys.argv[2] == "-t" or sys.argv[2] == "--title":
         if len(sys.argv) == 3:
             output = dataSource.books()
