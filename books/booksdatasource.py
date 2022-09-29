@@ -41,7 +41,7 @@ class Book:
     def printBook(self):
         bookAuthor = ""
         for author in self.authors:
-            bookAuthor += author.given_name + " " + author.surname
+            bookAuthor += author.given_name + " " + author.surname + " "
         print(self.title + ", " + self.publication_year + ", by " + bookAuthor)
 
 class BooksDataSource:
@@ -120,12 +120,12 @@ class BooksDataSource:
                 if i < len(authSplit) -2:
                     surname += " "
                 i += 1
-            
+
             auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
             if auth not in self.bookAuthList:
                 self.bookAuthList.append(auth)
             authList.append(auth)
-            
+
 
             bookOb = Book(listTitle, listYear, authList)
 
@@ -244,3 +244,9 @@ class BooksDataSource:
 
 if __name__ == "__main__":
     main()
+
+#files to be input
+#change the names of variables
+#handle None for books_between_years (start)
+#handle None for books with None search string but yes sorting change
+#fix general style, add comments
