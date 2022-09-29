@@ -26,6 +26,7 @@ def main():
         print(usage.read())
         usage.close()
         return
+    #might need to check that sys.argv[1] is a file
     books_file = open(sys.argv[1])
     #print(sys.argv[1])
     dataSource = booksdatasource.BooksDataSource(books_file)

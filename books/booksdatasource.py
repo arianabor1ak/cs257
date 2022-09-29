@@ -61,21 +61,13 @@ class BooksDataSource:
             a collection of Author objects and a collection of Book objects.
         '''
 
-        #self.file = books_csv_file_name
+        self.file = books_csv_file_name
         self.bookList = list()
         self.bookAuthList = list()
 
-        
         #I couldn't remember how to skip commas in quotes, but I knew there was a way to do it, so I looked it up
         #Citation is https://stackoverflow.com/questions/21527057/python-parse-csv-ignoring-comma-with-double-quotes
-        if type(books_csv_file_name) == str:
-            self.file = open(books_csv_file_name)
-        else:
-            self.file = books_csv_file_name
-        for line in csv.reader(self.file, quotechar = '"', delimiter = ',', skipinitialspace=True):
-            #print("line is", line)
-            #print("file is", books_csv_file_name)
-            #print(type(books_csv_file_name))
+        for line in csv.reader(books_csv_file_name, quotechar = '"', delimiter = ',', skipinitialspace=True):
             listTitle, listYear, listAuth = line[0], line[1], line[2]
 
             multAuthSplit = listAuth.split()
@@ -107,7 +99,8 @@ class BooksDataSource:
 
                     auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1]) #we have duplicate author objects
                     authList.append(auth)
-                    self.bookAuthList.append(auth)
+                    if auth not in self.bookAuthList:
+                        self.bookAuthList.append(auth)
 
                     while len(authSplit) > 0:
                         authSplit.pop()
@@ -136,9 +129,6 @@ class BooksDataSource:
             bookOb = Book(listTitle, listYear, authList)
 
             self.bookList.append(bookOb)
-            
-        if type(books_csv_file_name) == str:
-                self.file.close()
 
 
         pass
@@ -258,4 +248,3 @@ if __name__ == "__main__":
 #handle None for books_between_years (start)
 #handle None for books with None search string but yes sorting change
 #fix general style, add comments
-#sort by year isn't working
