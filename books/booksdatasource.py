@@ -215,6 +215,7 @@ class BooksDataSource:
         yearResults = list()
         if start_year == None and end_year == None:
             yearResults = self.bookList
+            return yearResults
         for book in self.bookList:
             if start_year == None and book.publication_year <= end_year:
                 yearResults.append(book)
