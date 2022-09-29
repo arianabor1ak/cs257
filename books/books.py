@@ -15,7 +15,7 @@ import booksdatasource
 
 def main():
     books_file = open('books1.csv')
-    dataSource = BooksDataSource(books_file)
+    dataSource = booksdatasource.BooksDataSource(books_file)
     if len(sys.argv) == 1:
         output = dataSource.books()
     elif sys.argv[1] == "-h" or sys.argv[1] == "--help":
@@ -54,9 +54,9 @@ def main():
     books_file.close()
 
     for item in output:
-        if isinstance(item, Author):
+        if isinstance(item, booksdatasource.Author):
             item.printAuth()
-        elif isinstance(item, Book):
+        elif isinstance(item, booksdatasource.Book):
             item.printBook()
 
 main()
