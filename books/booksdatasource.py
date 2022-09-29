@@ -1,5 +1,4 @@
 #Sophia Wang and Ariana Borlak
-#!/usr/bin/env python3
 '''
     booksdatasource.py
     Jeff Ondich, 21 September 2022
@@ -12,18 +11,18 @@ import csv
 import sys
 
 class Author:
-    def __init__(self, surname='', given_name='', birth_year=None, death_year=None):
-        self.surname = surname
+    def __init__(self, lineAuthSurname='', given_name='', birth_year=None, death_year=None):
+        self.lineAuthSurname = lineAuthSurname
         self.given_name = given_name
         self.birth_year = birth_year
         self.death_year = death_year
 
     def __eq__(self, other):
         ''' For simplicity, we're going to assume that no two authors have the same name. '''
-        return self.surname == other.surname and self.given_name == other.given_name
+        return self.lineAuthSurname == other.lineAuthSurname and self.given_name == other.given_name
 
     def printAuth(self):
-        print(self.given_name + " " + self.surname + " (" + self.birth_year + "-" + self.death_year + ")")
+        print(self.given_name + " " + self.lineAuthSurname + " (" + self.birth_year + "-" + self.death_year + ")")
 
 class Book:
     def __init__(self, title='', publication_year=None, authors=[]):
@@ -42,7 +41,7 @@ class Book:
     def printBook(self):
         bookAuthor = ""
         for author in self.authors:
-            bookAuthor += author.given_name + " " + author.surname + " "
+            bookAuthor += author.given_name + " " + author.lineAuthSurname + " "
         print(self.title + ", " + self.publication_year + ", by " + bookAuthor)
 
 class BooksDataSource:
@@ -65,73 +64,75 @@ class BooksDataSource:
             self.file = open(books_csv_file_name)
         else:
             self.file = books_csv_file_name
-        self.bookList = list()
-        self.bookAuthList = list()
+
+        self.globalBookList = list()
+        self.globalAuthList = list()
 
         #I couldn't remember how to skip commas in quotes, but I knew there was a way to do it, so I looked it up
         #Citation is https://stackoverflow.com/questions/21527057/python-parse-csv-ignoring-comma-with-double-quotes
         for line in csv.reader(self.file, quotechar = '"', delimiter = ',', skipinitialspace=True):
-            listTitle, listYear, listAuth = line[0], line[1], line[2]
+            lineTitle, lineYear, lineYear = line[0], line[1], line[2]
 
-            multAuthSplit = listAuth.split()
+            allAuthInfo = lineYear.split()
 
-            authSplit = list()
-            authList = list()
+            authInfoSplit = list()
+            singleBookAuthList = list()
 
 
-            for word in multAuthSplit:
+            for word in allAuthInfo:
                 if word != "and":
-                    authSplit.append(word)
+                    authInfoSplit.append(word)
 
-                    #then we have more than one author
-                    #for all of the items in the list before and, do what's below for one author
                 else:
                     #whether an author can have 2+ given names is not considered.
                     #everything after 0th index before years is considered a surname
-                    listAuthYear = authSplit[len(authSplit) - 1]
-                    listAuthYear = listAuthYear.strip("()")
-                    listAuthYear = listAuthYear.split("-")
+                    lineAuthYear = authInfoSplit[len(authInfoSplit) - 1]
+                    lineAuthYear = lineAuthYear.strip("()")
+                    lineAuthYear = lineAuthYear.split("-")
 
                     i = 1
-                    surname = ""
-                    while i <= len(authSplit) -2:
-                        surname += authSplit[i]
-                        if i < len(authSplit) -2:
-                            surname += " "
+                    lineAuthSurname = ""
+                    while i <= len(authInfoSplit) -2:
+                        lineAuthSurname += authInfoSplit[i]
+                        if i < len(authInfoSplit) -2:
+                            lineAuthSurname += " "
                         i += 1
 
-                    auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1]) #we have duplicate author objects
-                    authList.append(auth)
-                    if auth not in self.bookAuthList:
-                        self.bookAuthList.append(auth)
+                    authOb = Author(lineAuthSurname, authInfoSplit[0], lineAuthYear[0], lineAuthYear[1])
 
-                    while len(authSplit) > 0:
-                        authSplit.pop()
+                    singleBookAuthList.append(authOb)
+
+                    if authOb not in self.globalAuthList:
+                        self.globalAuthList.append(authOb)
+
+                    while len(authInfoSplit) > 0:
+                        authInfoSplit.pop()
 
 
-            #last author is skipped over, make object for them
-
-            listAuthYear = authSplit[len(authSplit) - 1]
-            listAuthYear = listAuthYear.strip("()")
-            listAuthYear = listAuthYear.split("-")
+            #last (or first, if only one author) author is skipped over, make object for them
+            lineAuthYear = authInfoSplit[len(authInfoSplit) - 1]
+            lineAuthYear = lineAuthYear.strip("()")
+            lineAuthYear = lineAuthYear.split("-")
 
             i = 1
-            surname = ""
-            while i <= len(authSplit) -2:
-                surname += authSplit[i]
-                if i < len(authSplit) -2:
-                    surname += " "
+            lineAuthSurname = ""
+            while i <= len(authInfoSplit) -2:
+                lineAuthSurname += authInfoSplit[i]
+                if i < len(authInfoSplit) -2:
+                    lineAuthSurname += " "
                 i += 1
 
-            auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
-            if auth not in self.bookAuthList:
-                self.bookAuthList.append(auth)
-            authList.append(auth)
+            authOb = Author(lineAuthSurname, authInfoSplit[0], lineAuthYear[0], lineAuthYear[1])
+
+            if authOb not in self.globalAuthList:
+                self.globalAuthList.append(authOb)
+
+            singleBookAuthList.append(authOb)
 
 
-            bookOb = Book(listTitle, listYear, authList)
+            bookOb = Book(lineTitle, lineYear, singleBookAuthList)
 
-            self.bookList.append(bookOb)
+            self.globalBookList.append(bookOb)
 
         if type(books_csv_file_name) == str:
             self.file.close()
@@ -142,20 +143,20 @@ class BooksDataSource:
         ''' Returns a list of all the Author objects in this data source whose names contain
             (case-insensitively) the search text. If search_text is None, then this method
             returns all of the Author objects. In either case, the returned list is sorted
-            by surname, breaking ties using given name (e.g. Ann Brontë comes before Charlotte Brontë).
+            by lineAuthSurname, breaking ties using given name (e.g. Ann Brontë comes before Charlotte Brontë).
         '''
         authResults = list()
 
         if search_text == None or search_text == "None":
-            authResults = self.bookAuthList
-            authResults.sort(key = lambda authOb: (authOb.surname, authOb.given_name))
+            authResults = self.globalAuthList
+            authResults.sort(key = lambda authOb: (authOb.lineAuthSurname, authOb.given_name))
             return authResults
 
         searchLower = search_text.lower()
 
 
-        for author in self.bookAuthList:
-            surLower = author.surname.lower()
+        for author in self.globalAuthList:
+            surLower = author.lineAuthSurname.lower()
             givenLower = author.given_name.lower()
 
             if searchLower in surLower or searchLower in givenLower:
@@ -167,7 +168,7 @@ class BooksDataSource:
 
         #Since I don't remember how to sort by attribute, I looked up it up and found
         #https://runestone.academy/ns/books/published/fopp/Sorting/SecondarySortOrder.html
-        authResults.sort(key = lambda authOb: (authOb.surname, authOb.given_name))
+        authResults.sort(key = lambda authOb: (authOb.lineAuthSurname, authOb.given_name))
         return authResults
 
     def books(self, search_text=None, sort_by='title'):
@@ -186,7 +187,7 @@ class BooksDataSource:
         bookResults = list()
 
         if search_text == None or search_text == "None":
-            bookResults = self.bookList
+            bookResults = self.globalBookList
             if sort_by.lower() == "year":
                 bookResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
                 return bookResults
@@ -198,7 +199,7 @@ class BooksDataSource:
         searchLower = search_text.lower()
 
 
-        for book in self.bookList:
+        for book in self.globalBookList:
             titleLower = book.title.lower()
             if searchLower in titleLower:
                 bookResults.append(book)
@@ -229,10 +230,10 @@ class BooksDataSource:
         #force users to input lesser to greater (or else no results :P)
         yearResults = list()
         if (start_year == None or start_year == "None") and (end_year == None or end_year == "None"):
-            yearResults = self.bookList
+            yearResults = self.globalBookList
             yearResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
             return yearResults
-        for book in self.bookList:
+        for book in self.globalBookList:
             if (start_year == None or start_year == "None") and book.publication_year <= end_year:
                 yearResults.append(book)
             elif (end_year == None or end_year == "None") and book.publication_year >= start_year:
