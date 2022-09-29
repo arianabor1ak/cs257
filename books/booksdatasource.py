@@ -104,8 +104,6 @@ class BooksDataSource:
                     while len(authSplit) > 0:
                         authSplit.pop()
 
-                    #bookOb = Book(listTitle, listYear, auth)
-
 
             #last author is skipped over, make object for them
 
@@ -128,12 +126,6 @@ class BooksDataSource:
 
 
             bookOb = Book(listTitle, listYear, authList)
-
-            # checkString = auth.given_name + " " + auth.surname + " (" + auth.birth_year + "-" + auth.death_year + ")"
-
-            # if checkString in self.bookAuthList:
-            #     while checkString in self.bookAuthList:
-            #         self.bookAuthList.remove(checkString)
 
             self.bookList.append(bookOb)
 
