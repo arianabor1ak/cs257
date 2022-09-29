@@ -99,6 +99,7 @@ class BooksDataSource:
 
                     auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1]) #we have duplicate author objects
                     self.authList.append(auth)
+                    bookAuthList.append(auth)
 
                     while len(authSplit) > 0:
                         authSplit.pop()
