@@ -63,7 +63,7 @@ class BooksDataSource:
 
         self.file = books_csv_file_name
         self.bookList = list()
-        self.authList = list()
+        self.bookAuthList = list()
 
         #I couldn't remember how to skip commas in quotes, but I knew there was a way to do it, so I looked it up
         #Citation is https://stackoverflow.com/questions/21527057/python-parse-csv-ignoring-comma-with-double-quotes
@@ -73,7 +73,7 @@ class BooksDataSource:
             multAuthSplit = listAuth.split()
 
             authSplit = list()
-            bookAuthList = list()
+            authList = list()
 
 
             for word in multAuthSplit:
@@ -98,8 +98,8 @@ class BooksDataSource:
                         i += 1
 
                     auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1]) #we have duplicate author objects
-                    self.authList.append(auth)
-                    bookAuthList.append(auth)
+                    authList.append(auth)
+                    self.bookAuthList.append(auth)
 
                     while len(authSplit) > 0:
                         authSplit.pop()
@@ -122,9 +122,10 @@ class BooksDataSource:
                 i += 1
 
             auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
-            bookAuthList.append(auth)
+            authList.append(auth)
+            self.bookAuthList.append(auth)
 
-            bookOb = Book(listTitle, listYear, bookAuthList)
+            bookOb = Book(listTitle, listYear, authList)
 
             self.bookList.append(bookOb)
 
@@ -140,13 +141,13 @@ class BooksDataSource:
         authResults = list()
 
         if search_text == None:
-            authResults = self.authList
+            authResults = self.bookAuthList
             return authResults
 
         searchLower = search_text.lower()
 
 
-        for author in self.authList:
+        for author in self.bookAuthList:
             surLower = author.surname.lower()
             givenLower = author.given_name.lower()
 
