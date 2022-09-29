@@ -140,7 +140,7 @@ class BooksDataSource:
         '''
         authResults = list()
 
-        if search_text == None:
+        if search_text == None or search_text == "None":
             authResults = self.bookAuthList
             authResults.sort(key = lambda authOb: (authOb.surname, authOb.given_name))
             return authResults
@@ -179,7 +179,7 @@ class BooksDataSource:
         #if users search by title with apostrophe (like let's) but don't include the apostrophe, show the result anyway?
         bookResults = list()
 
-        if search_text == None:
+        if search_text == None or search_text == "None":
             bookResults = self.bookList
             bookResults.sort(key = lambda bookOb: (bookOb.title, bookOb.publication_year))
             return bookResults
@@ -217,14 +217,14 @@ class BooksDataSource:
 
         #force users to input lesser to greater (or else no results :P)
         yearResults = list()
-        if start_year == None and end_year == None:
+        if (start_year == None or start_year == "None") and (end_year == None or end_year == "None"):
             yearResults = self.bookList
             yearResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
             return yearResults
         for book in self.bookList:
-            if start_year == None and book.publication_year <= end_year:
+            if (start_year == None or start_year == "None") and book.publication_year <= end_year:
                 yearResults.append(book)
-            elif end_year == None and book.publication_year >= start_year:
+            elif (end_year == None or end_year == "None") and book.publication_year >= start_year:
                 yearResults.append(book)
             elif book.publication_year >= start_year and book.publication_year <= end_year:
                 yearResults.append(book)
