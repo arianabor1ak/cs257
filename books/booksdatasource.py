@@ -102,7 +102,8 @@ class BooksDataSource:
 
                     auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1]) #we have duplicate author objects
                     authList.append(auth)
-                    self.bookAuthList.append(auth)
+                    if auth not in self.bookAuthList:
+                        self.bookAuthList.append(auth)
 
                     while len(authSplit) > 0:
                         authSplit.pop()
@@ -131,7 +132,7 @@ class BooksDataSource:
             bookOb = Book(listTitle, listYear, authList)
 
             self.bookList.append(bookOb)
-    
+
         if type(books_csv_file_name) == str:
             self.file.close()
 
