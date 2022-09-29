@@ -95,7 +95,7 @@ class BooksDataSource:
                             surname += " "
                         i += 1
 
-                    auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1])
+                    auth = Author(surname, authSplit[0], listAuthYear[0], listAuthYear[1]) #we have duplicate author objects
                     self.authList.append(auth)
 
                     while len(authSplit) > 0:
@@ -136,10 +136,13 @@ class BooksDataSource:
         '''
         authResults = list()
 
+        if search_text == None:
+            authResults = self.authList
+            return authResults
+
         searchLower = search_text.lower()
 
-        if searchLower == "":
-            authResults = self.authList
+
         for author in self.authList:
             surLower = author.surname.lower()
             givenLower = author.given_name.lower()
@@ -170,11 +173,12 @@ class BooksDataSource:
         #if users search by title with apostrophe (like let's) but don't include the apostrophe, show the result anyway?
         bookResults = list()
 
-        if(search_text.type() != NoneType):
-            searchLower = search_text.lower()
+        if search_text == None:
+            authResults = self.authList
+            return authResults
 
-        if searchLower == "":
-            bookResults = self.bookList
+        searchLower = search_text.lower()
+
 
         for book in self.bookList:
             titleLower = book.title.lower()
@@ -205,12 +209,12 @@ class BooksDataSource:
 
         #force users to input lesser to greater (or else no results :P)
         yearResults = list()
-        if start_year == "" and end_year == "":
+        if start_year == None and end_year == None:
             yearResults = self.bookList
         for book in self.bookList:
-            if start_year == "" and book.publication_year <= end_year:
+            if start_year == None and book.publication_year <= end_year:
                 yearResults.append(book)
-            elif end_year == "" and book.publication_year >= start_year:
+            elif end_year == None and book.publication_year >= start_year:
                 yearResults.append(book)
             elif book.publication_year >= start_year and book.publication_year <= end_year:
                 yearResults.append(book)
