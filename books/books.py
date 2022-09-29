@@ -1,5 +1,4 @@
 #Sophia Wang and Ariana Borlak
-#!/usr/bin/env python3
 '''
     books.py
     Jeff Ondich, 21 September 2022
