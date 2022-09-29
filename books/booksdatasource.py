@@ -173,8 +173,8 @@ class BooksDataSource:
         bookResults = list()
 
         if search_text == None:
-            authResults = self.authList
-            return authResults
+            bookResults = self.bookList
+            return bookResults
 
         searchLower = search_text.lower()
 
