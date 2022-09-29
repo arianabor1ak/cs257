@@ -23,29 +23,29 @@ def main():
         print(usage.read())
         usage.close()
     elif sys.argv[1] == "-t" or sys.argv[1] == "--title":
-        if len(sys.arg) == 2:
+        if len(sys.argv) == 2:
             output = dataSource.books()
-        elif len(sys.arg) == 3:
+        elif len(sys.argv) == 3:
             output = dataSource.books(sys.argv[2])
-        elif len(sys.arg) == 4:
+        elif len(sys.argv) == 4:
             output = dataSource.books(sys.argv[2], sys.argv[3])
         else:
             raise SyntaxError('Wrong number of arguments')
     elif sys.argv[1] == "-a" or sys.argv[1] == "--author":
-        if len(sys.arg) == 2:
+        if len(sys.argv) == 2:
             output = dataSource.books()
-        elif len(sys.arg) == 3:
+        elif len(sys.argv) == 3:
             output = dataSource.authors(sys.argv[2])
-        elif len(sys.arg) == 4:
+        elif len(sys.argv) == 4:
             output = dataSource.authors(sys.argv[2], sys.argv[3])
         else:
             raise SyntaxError('Wrong number of arguments')
     elif sys.argv[1] == "-y" or sys.argv[1] == "--year":
-        if len(sys.arg) == 2:
+        if len(sys.argv) == 2:
             output = dataSource.books()
-        elif len(sys.arg) == 3:
+        elif len(sys.argv) == 3:
             output = dataSource.books_between_years(sys.argv[2])
-        elif len(sys.arg) == 4:
+        elif len(sys.argv) == 4:
             output = dataSource.books_between_years(sys.argv[2], sys.argv[3])
         else:
             raise SyntaxError('Wrong number of arguments')
