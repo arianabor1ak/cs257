@@ -61,14 +61,16 @@ class BooksDataSource:
             suitable instance variables for the BooksDataSource object containing
             a collection of Author objects and a collection of Book objects.
         '''
-
-        self.file = books_csv_file_name
+        if type(books_csv_file_name) == str:
+            self.file = open(books_csv_file_name)
+        else:
+            self.file = books_csv_file_name
         self.bookList = list()
         self.bookAuthList = list()
 
         #I couldn't remember how to skip commas in quotes, but I knew there was a way to do it, so I looked it up
         #Citation is https://stackoverflow.com/questions/21527057/python-parse-csv-ignoring-comma-with-double-quotes
-        for line in csv.reader(books_csv_file_name, quotechar = '"', delimiter = ',', skipinitialspace=True):
+        for line in csv.reader(self.file, quotechar = '"', delimiter = ',', skipinitialspace=True):
             listTitle, listYear, listAuth = line[0], line[1], line[2]
 
             multAuthSplit = listAuth.split()
@@ -130,7 +132,9 @@ class BooksDataSource:
             bookOb = Book(listTitle, listYear, authList)
 
             self.bookList.append(bookOb)
-
+    
+        if type(books_csv_file_name) == str:
+            self.file.close()
 
         pass
 
