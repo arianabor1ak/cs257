@@ -33,7 +33,7 @@ def main():
             raise SyntaxError('Wrong number of arguments')
     elif sys.argv[1] == "-a" or sys.argv[1] == "--author":
         if len(sys.argv) == 2:
-            output = dataSource.books()
+            output = dataSource.authors()
         elif len(sys.argv) == 3:
             output = dataSource.authors(sys.argv[2])
         elif len(sys.argv) == 4:
@@ -42,7 +42,7 @@ def main():
             raise SyntaxError('Wrong number of arguments')
     elif sys.argv[1] == "-y" or sys.argv[1] == "--year":
         if len(sys.argv) == 2:
-            output = dataSource.books()
+            output = dataSource.books_between_years()
         elif len(sys.argv) == 3:
             output = dataSource.books_between_years(sys.argv[2])
         elif len(sys.argv) == 4:
