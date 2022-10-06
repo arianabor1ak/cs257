@@ -14,20 +14,20 @@ DESCRIPTION
 
 OPTIONS
 
-	books [sort]
-		Search for [string] in titles of books within <file> and lists results in alphabetical order by title. If [string] is "None", 
+	titles [sort]
+		Search for [string] in titles of books within <file> and lists results in alphabetical order by title. If [string] is "None",
 		all books in <file> will be returned, sorted by [sort]. For example: python3 books.py books1.csv books eve -y
 			-t or --title to sort by title (default)
 			-y or --year to sort by publication year
 
 	authors
-		Search for [string] in author names within <file> and list in alphabetical order by surname. If [string] is "None", 
-		all authors in <file> will be returned. For example: python3 books.py books1.csv authors on 
+		Search for [string] in author names within <file> and list in alphabetical order by surname. If [string] is "None",
+		all authors in <file> will be returned. For example: python3 books.py books1.csv authors on
 
 	-h, --help
 		Prints usage statement
 
-	years 
+	years
 		Search for books by publication year within <file> in the range from the first [string] to the second [string] and
-		lists results in order by publication year, inclusive. Use None for either or both strings to have no limit for 
+		lists results in order by publication year, inclusive. Use None for either or both strings to have no limit for
 		the start or end year, or both. For example: python3 books.py years books1.csv None 2000

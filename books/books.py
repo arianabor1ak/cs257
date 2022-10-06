@@ -27,7 +27,7 @@ def main():
         usage.close()
         return
 
-    #try/except was inspired by code review, specifically james brink and amir al-sheikh. 
+    #try/except was inspired by code review, specifically james brink and amir al-sheikh.
     #it seems simple enough that no google search was needed
     try:
         books_file = open(sys.argv[1])
@@ -38,7 +38,7 @@ def main():
     dataSource = booksdatasource.BooksDataSource(books_file)
     if len(sys.argv) == 2:
         output = dataSource.books()
-    elif sys.argv[2] == "books":
+    elif sys.argv[2] == "titles":
         if len(sys.argv) == 3:
             output = dataSource.books()
         elif len(sys.argv) == 4:

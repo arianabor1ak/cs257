@@ -43,8 +43,33 @@ class Book:
             book_author += author.given_name + " " + author.surname + " "
         print(self.title + ", " + self.publication_year + ", by " + book_author)
 
-class BooksDataSource:
 
+def create_author(data_source, author_info_split, single_book_author_list):
+    ''' Returns the list of authors for a single book
+    '''
+    #whether an author can have 2+ given names is not considered.
+    #everything after 0th index before years is considered a surname
+    author_years = author_info_split[len(author_info_split) - 1]
+    author_years = author_years.strip("()")
+    author_years = author_years.split("-")
+
+    i = 1
+    author_surname = ""
+    while i <= len(author_info_split) -2:
+        author_surname += author_info_split[i]
+        if i < len(author_info_split) -2:
+            author_surname += " "
+        i += 1
+
+    author_object = Author(author_surname, author_info_split[0], author_years[0], author_years[1])
+    single_book_author_list.append(author_object)
+    if author_object not in data_source.global_author_list:
+        data_source.global_author_list.append(author_object)
+
+    return single_book_author_list
+
+
+class BooksDataSource:
     def __init__(self, books_csv_file_name):
         ''' The books CSV file format looks like this:
                 title,publication_year,author_description
@@ -68,7 +93,6 @@ class BooksDataSource:
         #Citation is https://stackoverflow.com/questions/21527057/python-parse-csv-ignoring-comma-with-double-quotes
         for line in csv.reader(self.file, quotechar = '"', delimiter = ',', skipinitialspace=True):
             line_title, line_year, line_authors = line[0], line[1], line[2]
-
             all_author_info = line_authors.split()
 
             author_info_split = list()
@@ -80,48 +104,12 @@ class BooksDataSource:
                     author_info_split.append(word)
 
                 else:
-                    #whether an author can have 2+ given names is not considered.
-                    #everything after 0th index before years is considered a surname
-                    author_years = author_info_split[len(author_info_split) - 1]
-                    author_years = author_years.strip("()")
-                    author_years = author_years.split("-")
-
-                    i = 1
-                    author_surname = ""
-                    while i <= len(author_info_split) -2:
-                        author_surname += author_info_split[i]
-                        if i < len(author_info_split) -2:
-                            author_surname += " "
-                        i += 1
-
-                    author_object = Author(author_surname, author_info_split[0], author_years[0], author_years[1]) 
-                    single_book_author_list.append(author_object)
-                    if author_object not in self.global_author_list:
-                        self.global_author_list.append(author_object)
-
+                    single_book_author_list = create_author(self, author_info_split, single_book_author_list)
                     while len(author_info_split) > 0:
                         author_info_split.pop()
 
-
             #last author is skipped over, make object for them
-
-            author_years = author_info_split[len(author_info_split) - 1]
-            author_years = author_years.strip("()")
-            author_years = author_years.split("-")
-
-            i = 1
-            author_surname = ""
-            while i <= len(author_info_split) -2:
-                author_surname += author_info_split[i]
-                if i < len(author_info_split) -2:
-                    author_surname += " "
-                i += 1
-
-            author_object = Author(author_surname, author_info_split[0], author_years[0], author_years[1])
-            if author_object not in self.global_author_list:
-                self.global_author_list.append(author_object)
-            single_book_author_list.append(author_object)
-
+            single_book_author_list = create_author(self, author_info_split, single_book_author_list)
 
             book_object = Book(line_title, line_year, single_book_author_list)
 
@@ -129,7 +117,6 @@ class BooksDataSource:
 
         if type(books_csv_file_name) == str:
             self.file.close()
-
 
     def authors(self, search_text=None):
         ''' Returns a list of all the Author objects in this data source whose names contain
