@@ -20,14 +20,21 @@ def main():
     if len(sys.argv) < 2:
         #raise an error: too few arguments
         raise SyntaxError('Too few arguments, type python3 books.py -h for help')
+        return
     if sys.argv[1] == "-h" or sys.argv[1] == "--help":
         usage = open('usage.txt')
         print(usage.read())
         usage.close()
         return
-    #might need to check that sys.argv[1] is a file
-    books_file = open(sys.argv[1])
-    #print(sys.argv[1])
+
+    #try/except was inspired by code review, specifically james brink and amir al-sheikh. 
+    #it seems simple enough that no google search was needed
+    try:
+        books_file = open(sys.argv[1])
+    except:
+        print(sys.argv[1], "is not a valid file, please enter a valid file")
+        return
+
     dataSource = booksdatasource.BooksDataSource(books_file)
     if len(sys.argv) == 2:
         output = dataSource.books()
@@ -68,4 +75,5 @@ def main():
         elif isinstance(item, booksdatasource.Book):
             item.printBook()
 
-main()
+if __name__ == "__main__":
+    main()

@@ -38,10 +38,10 @@ class Book:
         return self.title == other.title
 
     def printBook(self):
-        bookAuthor = ""
+        book_author = ""
         for author in self.authors:
-            bookAuthor += author.given_name + " " + author.surname + " "
-        print(self.title + ", " + self.publication_year + ", by " + bookAuthor)
+            book_author += author.given_name + " " + author.surname + " "
+        print(self.title + ", " + self.publication_year + ", by " + book_author)
 
 class BooksDataSource:
 
@@ -55,82 +55,81 @@ class BooksDataSource:
             suitable instance variables for the BooksDataSource object containing
             a collection of Author objects and a collection of Book objects.
         '''
+
+        #command line is handled differently than testing, so this covers both:
         if type(books_csv_file_name) == str:
             self.file = open(books_csv_file_name)
         else:
             self.file = books_csv_file_name
-        self.globalBookList = list()
-        self.globalAuthList = list()
+        self.global_book_list = list()
+        self.global_author_list = list()
 
         #I couldn't remember how to skip commas in quotes, but I knew there was a way to do it, so I looked it up
         #Citation is https://stackoverflow.com/questions/21527057/python-parse-csv-ignoring-comma-with-double-quotes
         for line in csv.reader(self.file, quotechar = '"', delimiter = ',', skipinitialspace=True):
-            lineTitle, lineYear, lineAuth = line[0], line[1], line[2]
+            line_title, line_year, line_authors = line[0], line[1], line[2]
 
-            allAuthInfo = lineAuth.split()
+            all_author_info = line_authors.split()
 
-            authInfoSplit = list()
-            singleBookAuthList = list()
+            author_info_split = list()
+            single_book_author_list = list()
 
 
-            for word in allAuthInfo:
+            for word in all_author_info:
                 if word != "and":
-                    authInfoSplit.append(word)
+                    author_info_split.append(word)
 
-                    #then we have more than one author
-                    #for all of the items in the list before and, do what's below for one author
                 else:
                     #whether an author can have 2+ given names is not considered.
                     #everything after 0th index before years is considered a surname
-                    lineAuthYear = authInfoSplit[len(authInfoSplit) - 1]
-                    lineAuthYear = lineAuthYear.strip("()")
-                    lineAuthYear = lineAuthYear.split("-")
+                    author_years = author_info_split[len(author_info_split) - 1]
+                    author_years = author_years.strip("()")
+                    author_years = author_years.split("-")
 
                     i = 1
-                    lineSurname = ""
-                    while i <= len(authInfoSplit) -2:
-                        lineSurname += authInfoSplit[i]
-                        if i < len(authInfoSplit) -2:
-                            lineSurname += " "
+                    author_surname = ""
+                    while i <= len(author_info_split) -2:
+                        author_surname += author_info_split[i]
+                        if i < len(author_info_split) -2:
+                            author_surname += " "
                         i += 1
 
-                    authOb = Author(lineSurname, authInfoSplit[0], lineAuthYear[0], lineAuthYear[1]) #we have duplicate author objects
-                    singleBookAuthList.append(authOb)
-                    if authOb not in self.globalAuthList:
-                        self.globalAuthList.append(authOb)
+                    author_object = Author(author_surname, author_info_split[0], author_years[0], author_years[1]) 
+                    single_book_author_list.append(author_object)
+                    if author_object not in self.global_author_list:
+                        self.global_author_list.append(author_object)
 
-                    while len(authInfoSplit) > 0:
-                        authInfoSplit.pop()
+                    while len(author_info_split) > 0:
+                        author_info_split.pop()
 
 
             #last author is skipped over, make object for them
 
-            lineAuthYear = authInfoSplit[len(authInfoSplit) - 1]
-            lineAuthYear = lineAuthYear.strip("()")
-            lineAuthYear = lineAuthYear.split("-")
+            author_years = author_info_split[len(author_info_split) - 1]
+            author_years = author_years.strip("()")
+            author_years = author_years.split("-")
 
             i = 1
-            lineSurname = ""
-            while i <= len(authInfoSplit) -2:
-                lineSurname += authInfoSplit[i]
-                if i < len(authInfoSplit) -2:
-                    lineSurname += " "
+            author_surname = ""
+            while i <= len(author_info_split) -2:
+                author_surname += author_info_split[i]
+                if i < len(author_info_split) -2:
+                    author_surname += " "
                 i += 1
 
-            authOb = Author(lineSurname, authInfoSplit[0], lineAuthYear[0], lineAuthYear[1])
-            if authOb not in self.globalAuthList:
-                self.globalAuthList.append(authOb)
-            singleBookAuthList.append(authOb)
+            author_object = Author(author_surname, author_info_split[0], author_years[0], author_years[1])
+            if author_object not in self.global_author_list:
+                self.global_author_list.append(author_object)
+            single_book_author_list.append(author_object)
 
 
-            bookOb = Book(lineTitle, lineYear, singleBookAuthList)
+            book_object = Book(line_title, line_year, single_book_author_list)
 
-            self.globalBookList.append(bookOb)
+            self.global_book_list.append(book_object)
 
         if type(books_csv_file_name) == str:
             self.file.close()
 
-        pass
 
     def authors(self, search_text=None):
         ''' Returns a list of all the Author objects in this data source whose names contain
@@ -138,31 +137,31 @@ class BooksDataSource:
             returns all of the Author objects. In either case, the returned list is sorted
             by surname, breaking ties using given name (e.g. Ann Brontë comes before Charlotte Brontë).
         '''
-        authResults = list()
+        author_results = list()
 
         if search_text == None or search_text == "None":
-            authResults = self.globalAuthList
-            authResults.sort(key = lambda authOb: (authOb.surname, authOb.given_name))
-            return authResults
+            author_results = self.global_author_list
+            author_results.sort(key = lambda author_object: (author_object.surname, author_object.given_name))
+            return author_results
 
-        searchLower = search_text.lower()
+        search_lower = search_text.lower()
 
 
-        for author in self.globalAuthList:
-            surLower = author.surname.lower()
-            givenLower = author.given_name.lower()
+        for author in self.global_author_list:
+            surname_lower = author.surname.lower()
+            given_lower = author.given_name.lower()
 
-            if searchLower in surLower or searchLower in givenLower:
-                authResults.append(author)
-            elif searchLower in givenLower + " " + surLower or searchLower in surLower + " " + givenLower:
-                authResults.append(author)
-            elif searchLower in givenLower + ", " + surLower or searchLower in surLower + ", " + givenLower:
-                authResults.append(author)
+            if search_lower in surname_lower or search_lower in given_lower:
+                author_results.append(author)
+            elif search_lower in given_lower + " " + surname_lower or search_lower in surname_lower + " " + given_lower:
+                author_results.append(author)
+            elif search_lower in given_lower + ", " + surname_lower or search_lower in surname_lower + ", " + given_lower:
+                author_results.append(author)
 
         #Since I don't remember how to sort by attribute, I looked up it up and found
         #https://runestone.academy/ns/books/published/fopp/Sorting/SecondarySortOrder.html
-        authResults.sort(key = lambda authOb: (authOb.surname, authOb.given_name))
-        return authResults
+        author_results.sort(key = lambda author_object: (author_object.surname, author_object.given_name))
+        return author_results
 
     def books(self, search_text=None, sort_by='title'):
         ''' Returns a list of all the Book objects in this data source whose
@@ -174,36 +173,36 @@ class BooksDataSource:
                 default -- same as 'title' (that is, if sort_by is anything other than 'year'
                             or 'title', just do the same thing you would do for 'title')
         '''
-        #if users search by title with apostrophe (like let's) but don't include the apostrophe, show the result anyway?
-        bookResults = list()
+        #we choose to force users to keep track of diacritics and apostrophes or other punctuation
+        book_results = list()
 
         if search_text == None or search_text == "None":
-            bookResults = self.globalBookList
+            book_results = self.global_book_list
             if sort_by.lower() == "year":
-                bookResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
-                return bookResults
+                book_results.sort(key = lambda book_object: (book_object.publication_year, book_object.title))
+                return book_results
             else:
-                bookResults.sort(key = lambda bookOb: (bookOb.title, bookOb.publication_year))
-                return bookResults
-            return bookResults
+                book_results.sort(key = lambda book_object: (book_object.title, book_object.publication_year))
+                return book_results
+            return book_results
 
-        searchLower = search_text.lower()
+        search_lower = search_text.lower()
 
 
-        for book in self.globalBookList:
-            titleLower = book.title.lower()
-            if searchLower in titleLower:
-                bookResults.append(book)
+        for book in self.global_book_list:
+            title_lower = book.title.lower()
+            if search_lower in title_lower:
+                book_results.append(book)
 
 
         #Since I don't remember how to sort by attribute, I looked up it up and found
         #https://runestone.academy/ns/books/published/fopp/Sorting/SecondarySortOrder.html
         if sort_by.lower() == "year":
-            bookResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
-            return bookResults
+            book_results.sort(key = lambda book_object: (book_object.publication_year, book_object.title))
+            return book_results
         else:
-            bookResults.sort(key = lambda bookOb: (bookOb.title, bookOb.publication_year))
-            return bookResults
+            book_results.sort(key = lambda book_object: (book_object.title, book_object.publication_year))
+            return book_results
 
     def books_between_years(self, start_year=None, end_year=None):
         ''' Returns a list of all the Book objects in this data source whose publication
@@ -215,33 +214,26 @@ class BooksDataSource:
             during start_year should be included. If both are None, then all books
             should be included.
         '''
-        #check input is numbers(? if they input strings, does this matter?)
 
-        #force users to input lesser to greater (or else no results :P)
-        yearResults = list()
+
+        #we choose to force users to input lesser to greater or else no results
+        year_results = list()
         if (start_year == None or start_year == "None") and (end_year == None or end_year == "None"):
-            yearResults = self.globalBookList
-            yearResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
-            return yearResults
-        for book in self.globalBookList:
+            year_results = self.global_book_list
+            year_results.sort(key = lambda book_object: (book_object.publication_year, book_object.title))
+            return year_results
+        for book in self.global_book_list:
             if (start_year == None or start_year == "None") and book.publication_year <= end_year:
-                yearResults.append(book)
+                year_results.append(book)
             elif (end_year == None or end_year == "None") and book.publication_year >= start_year:
-                yearResults.append(book)
+                year_results.append(book)
             elif book.publication_year >= start_year and book.publication_year <= end_year:
-                yearResults.append(book)
+                year_results.append(book)
 
         #Since I don't remember how to sort by attribute, I looked up it up and found
         #https://runestone.academy/ns/books/published/fopp/Sorting/SecondarySortOrder.html
-        yearResults.sort(key = lambda bookOb: (bookOb.publication_year, bookOb.title))
-        return yearResults
+        year_results.sort(key = lambda book_object: (book_object.publication_year, book_object.title))
+        return year_results
 
 if __name__ == "__main__":
     main()
-
-#files to be input
-#change the names of variables
-#handle None for books_between_years (start)
-#handle None for books with
-# search string but yes sorting change
-#fix general style, add comments
