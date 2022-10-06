@@ -16,7 +16,7 @@ OPTIONS
 
 	titles [sort]
 		Search for [string] in titles of books within <file> and lists results in alphabetical order by title. If [string] is "None",
-		all books in <file> will be returned, sorted by [sort]. For example: python3 books.py books1.csv books eve -y
+		all books in <file> will be returned, sorted by [sort]. For example: python3 books.py books1.csv titles eve -y
 			-t or --title to sort by title (default)
 			-y or --year to sort by publication year
 

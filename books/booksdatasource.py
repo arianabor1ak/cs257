@@ -39,8 +39,15 @@ class Book:
 
     def printBook(self):
         book_author = ""
-        for author in self.authors:
+        if len(self.authors) == 1:
             book_author += author.given_name + " " + author.surname + " "
+        elif len(self.authors) >= 2:
+            for author in self.authors:
+                book_author += author.given_name + " " + author.surname + " and "
+            #I wasn't sure how to remove the last characters from a string so I used this source
+            #https://stackoverflow.com/questions/1038824/how-do-i-remove-a-substring-from-the-end-of-a-string
+            if book_author.endswith("and "):
+                book_author = book_author[:-4]
         print(self.title + ", " + self.publication_year + ", by " + book_author)
 
 
