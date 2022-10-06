@@ -38,7 +38,7 @@ def main():
     dataSource = booksdatasource.BooksDataSource(books_file)
     if len(sys.argv) == 2:
         output = dataSource.books()
-    elif sys.argv[2] == "-t" or sys.argv[2] == "--title":
+    elif sys.argv[2] == "books":
         if len(sys.argv) == 3:
             output = dataSource.books()
         elif len(sys.argv) == 4:
@@ -47,7 +47,7 @@ def main():
             output = dataSource.books(sys.argv[3], sys.argv[4])
         else:
             raise SyntaxError('Wrong number of arguments')
-    elif sys.argv[2] == "-a" or sys.argv[2] == "--author":
+    elif sys.argv[2] == "authors":
         if len(sys.argv) == 3:
             output = dataSource.authors()
         elif len(sys.argv) == 4:
@@ -56,7 +56,7 @@ def main():
             output = dataSource.authors(sys.argv[3], sys.argv[4])
         else:
             raise SyntaxError('Wrong number of arguments')
-    elif sys.argv[2] == "-y" or sys.argv[2] == "--year":
+    elif sys.argv[2] == "years":
         if len(sys.argv) == 3:
             output = dataSource.books_between_years()
         elif len(sys.argv) == 4:

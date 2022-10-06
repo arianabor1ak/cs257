@@ -12,19 +12,22 @@ DESCRIPTION
 	Lists all results from a books CSV file matching a case-insensitive [string] according to <option>. Indicating no option
 	returns all books.
 
-	-t, --title [sort]
-		Search for [string] in titles of books within <file> and lists results in alphabetical order by title; [sort] can
-		be 'title' to sort by title (default behavior) or 'year' to sort by publication year. If [string] is "None", 
-		all books in <file> will be returned, sorted by [sort].
+OPTIONS
 
-	-a, --author
+	books [sort]
+		Search for [string] in titles of books within <file> and lists results in alphabetical order by title. If [string] is "None", 
+		all books in <file> will be returned, sorted by [sort]. For example: python3 books.py books1.csv eve -y
+			-t or --title to sort by title (default)
+			-y or --year to sort by publication year
+
+	authors
 		Search for [string] in author names within <file> and list in alphabetical order by surname. If [string] is "None", 
 		all authors in <file> will be returned.
 
 	-h, --help
 		Prints usage statement
 
-	-y, --year
+	years 
 		Search for books by publication year within <file> in the range from the first [string] to the second [string] and
 		lists results in order by publication year, inclusive. Use None for either or both strings to have no limit for 
 		the start or end year, or both.

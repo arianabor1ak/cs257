@@ -178,7 +178,7 @@ class BooksDataSource:
 
         if search_text == None or search_text == "None":
             book_results = self.global_book_list
-            if sort_by.lower() == "year":
+            if sort_by.lower() == "-y" or sort_by.lower() == "--year":
                 book_results.sort(key = lambda book_object: (book_object.publication_year, book_object.title))
                 return book_results
             else:
