@@ -15,6 +15,7 @@ class Author:
         self.given_name = given_name
         self.birth_year = birth_year
         self.death_year = death_year
+        # self.books = books
 
     def __eq__(self, other):
         ''' For simplicity, we're going to assume that no two authors have the same name. '''
@@ -40,7 +41,7 @@ class Book:
     def printBook(self):
         book_author = ""
         if len(self.authors) == 1:
-            book_author += author.given_name + " " + author.surname + " "
+            book_author += self.authors[0].given_name + " " + self.authors[0].surname + " "
         elif len(self.authors) >= 2:
             for author in self.authors:
                 book_author += author.given_name + " " + author.surname + " and "
@@ -69,11 +70,13 @@ def create_author(data_source, author_info_split, single_book_author_list):
         i += 1
 
     author_object = Author(author_surname, author_info_split[0], author_years[0], author_years[1])
-    single_book_author_list.append(author_object)
+    
+    added_author = single_book_author_list
+    added_author.append(author_object)
     if author_object not in data_source.global_author_list:
         data_source.global_author_list.append(author_object)
 
-    return single_book_author_list
+    return added_author
 
 
 class BooksDataSource:
