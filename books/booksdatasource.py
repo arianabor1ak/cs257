@@ -10,19 +10,21 @@ import csv
 import sys
 
 class Author:
-    def __init__(self, surname='', given_name='', birth_year=None, death_year=None):
+    def __init__(self, surname='', given_name='', birth_year=None, death_year=None, books = []):
         self.surname = surname
         self.given_name = given_name
         self.birth_year = birth_year
         self.death_year = death_year
-        # self.books = books
+        self.books = books
 
     def __eq__(self, other):
         ''' For simplicity, we're going to assume that no two authors have the same name. '''
         return self.surname == other.surname and self.given_name == other.given_name
 
     def printAuth(self):
-        print(self.given_name + " " + self.surname + " (" + self.birth_year + "-" + self.death_year + ")")
+        print(self.given_name + " " + self.surname + " (" + self.birth_year + "-" + self.death_year + "):\n")
+        for written_book in self.books:
+            print(written_book.printBook(), "\n")
 
 class Book:
     def __init__(self, title='', publication_year=None, authors=[]):
@@ -52,7 +54,7 @@ class Book:
         print(self.title + ", " + self.publication_year + ", by " + book_author)
 
 
-def create_author(data_source, author_info_split, single_book_author_list):
+def create_author(data_source, author_info_split, single_book_author_list, author_books):
     ''' Returns the list of authors for a single book
     '''
     #whether an author can have 2+ given names is not considered.
@@ -69,12 +71,16 @@ def create_author(data_source, author_info_split, single_book_author_list):
             author_surname += " "
         i += 1
 
-    author_object = Author(author_surname, author_info_split[0], author_years[0], author_years[1])
+    author_object = Author(author_surname, author_info_split[0], author_years[0], author_years[1], author_books)
     
     added_author = single_book_author_list
     added_author.append(author_object)
     if author_object not in data_source.global_author_list:
         data_source.global_author_list.append(author_object)
+    #NEW STUFF somehow want to, if an author already exists, put more books onto their list? or maybe this should happen earlier
+    else: 
+        pass
+        
 
     return added_author
 
@@ -108,22 +114,48 @@ class BooksDataSource:
             author_info_split = list()
             single_book_author_list = list()
 
+            #NEW STUFF: attempt to keep track of all authors per line
+            single_line_author_list = list()
+
 
             for word in all_author_info:
                 if word != "and":
                     author_info_split.append(word)
 
                 else:
-                    single_book_author_list = create_author(self, author_info_split, single_book_author_list)
+                    single_book_author_list = create_author(self, author_info_split, single_book_author_list, [])
+                    single_line_author_list.append(single_book_author_list)
                     while len(author_info_split) > 0:
                         author_info_split.pop()
 
             #last author is skipped over, make object for them
-            single_book_author_list = create_author(self, author_info_split, single_book_author_list)
+            single_book_author_list = create_author(self, author_info_split, single_book_author_list, [])
+            single_line_author_list.append(single_book_author_list)
 
             book_object = Book(line_title, line_year, single_book_author_list)
 
+            #print(book_object.printBook())
+
+
+            #NEW STUFF: this, when it works, if it works, currently shows me one book per author, which makes sense
+            #since we create each author with one book and then don't add author objects anymore to the global list
+            #to avoid duplicates. I got stuck on where or how to append more books on
+            author_index = 0
+            while author_index < len(single_line_author_list):
+                #print(len(single_line_author_list))
+                #print((single_line_author_list[author_index]).surname)
+                for person in single_line_author_list[author_index]:
+                    person.books.append(book_object)
+                #single_line_author_list[author_index][0].books.append(book_object)
+                #print(single_line_author_list[author_index])
+                author_index += 1
+
             self.global_book_list.append(book_object)
+
+            # while len(single_line_author_list) > 0:
+            #     single_line_author_list.pop()
+
+        
 
         if type(books_csv_file_name) == str:
             self.file.close()
