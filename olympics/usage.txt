@@ -6,11 +6,17 @@ NAME
   olympics - query olympics database
 
 SYNOPSIS
-  python3 olympics [-h | --help] [<command>]
+  python3 olympics [-h | --help] [<command> [string]]
 
 DESCRIPTION
-  List results for query of olympics database
+  Lists results for a query of the olympics database.
 
 COMMANDS
   athletes
+    Lists all the athletes from a specified NOC [string].
+
   nocs
+    Lists all the NOCs and their number of gold medals won in decreasing order.
+
+  -h, --help
+    Prints the usage statement.
