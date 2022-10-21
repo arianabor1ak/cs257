@@ -1,46 +1,49 @@
 CREATE TABLE athletes (
-  id SERIAL
+  id SERIAL,
   name text
 );
 
 CREATE TABLE games (
-  id SERIAL
-  year integer
-  season_id integer
+  id SERIAL,
+  year integer,
+  season_id integer,
   city text
 );
 
 CREATE TABLE seasons (
-  id SERIAL
+  id SERIAL,
   season text
 );
 
 CREATE TABLE events (
-  id SERIAL
-  sport_id integer
+  id SERIAL,
+  sport_id integer,
   name text
 );
 
 CREATE TABLE sports (
-  id SERIAL
+  id SERIAL,
   name text
 );
 
 CREATE TABLE NOCs (
-  id SERIAL
-  abbreviation text
+  id SERIAL,
+  abbreviation text,
   country text
 );
 
 CREATE TABLE results (
-  id SERIAL
+  id SERIAL,
   medal text
 );
 
 CREATE TABLE athlete_event_results (
-  athlete_id integer
-  game_id integer
-  event_id integer
-  NOC_id integer
+  athlete_id integer,
+  game_id integer,
+  event_id integer,
+  NOC_id integer,
   results_id integer
 );
+
+\copy athlete_event_results FROM 'athlete_event_results.csv' DELIMITER ',' CSV NULL AS 'NULL'
+SELECT * FROM athletes LIMIT 5;

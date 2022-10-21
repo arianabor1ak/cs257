@@ -1,0 +1,16 @@
+Ariana Borlak
+
+OLYMPICS(1)
+
+NAME
+  olympics - query olympics database
+
+SYNOPSIS
+  python3 olympics [-h | --help] [<command>]
+
+DESCRIPTION
+  List results for query of olympics database
+
+COMMANDS
+  athletes
+  nocs
